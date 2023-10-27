@@ -43,20 +43,6 @@ Future<void> main() async {
   Map<String, Map<String, String>> languages = await di.init();
 
   int? orderID;
-  // try {
-  //   if (GetPlatform.isMobile) `{
-  //     final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-  //     if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-  //       orderID = notificationAppLaunchDetails!.notificationResponse!.payload != null    
-  //           ? int.parse(notificationAppLaunchDetails.notificationResponse!.payload!) : null;
-  //     }
-  //     await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-  //     FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-  //   }
-  // }catch(e) {
-  //   debugPrint('error ---> $e');
-  // }
-
   runApp(MyApp(languages: languages, orderID: orderID));
 
 }

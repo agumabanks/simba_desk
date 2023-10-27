@@ -11,6 +11,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   modal_progress_hud_nsn
   nb_utils
   permission_handler_windows
+  printing
   url_launcher_windows
 )
 

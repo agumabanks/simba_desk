@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:printing/printing.dart';
 import 'package:simbadesketop/controller/auth_controller.dart';
 import 'package:simbadesketop/controller/localization_controller.dart';
 import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
+import 'package:simbadesketop/controller/simba/txt.dart';
 import 'package:simbadesketop/data/model/simbaProfile.dart';
 import 'package:simbadesketop/helper/phone_cheker.dart';
 import 'package:simbadesketop/helper/route_helper.dart';
@@ -16,12 +18,28 @@ import 'package:simbadesketop/util/styles.dart';
 import 'package:simbadesketop/view/base/custom_ink_well.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/custom_text_field.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/profilesScreen.dart';
+import 'package:simbadesketop/view/screens/asimba/doccuments/idCard.dart';
 // import 'package:simbadesketop/view/base/custom_text_field.dart';
 import 'package:simbadesketop/view/screens/profile/widget/menu_item.dart';
 import 'package:simbadesketop/view/screens/profile/widget/menu_item.dart';
 
 import '../../../../helper/responsive_helper.dart';
 import '../../requested_money/widget/custom_button.dart';
+
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+
+
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
+import 'dart:convert';
+import 'dart:io';
+
 
 class SimbaDesktopScreen extends StatefulWidget {
   const SimbaDesktopScreen({super.key});
@@ -81,7 +99,6 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
 
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
-  // final FocusNode _emailFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
@@ -683,7 +700,11 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                           borderRadius:
                               BorderRadius.circular(12), // Rounded corners
                         ),
-                        child: const Text("Doccuments")),
+                        child: PdfPreview(
+                                  maxPageWidth: 700,
+                                  build: (format) => generateCertificate(format,),
+                                ),
+                        ),
                   ),
                 );
         });
@@ -1420,7 +1441,7 @@ _registerStep2(SimbaDesktopController authController) async {
                               Row(children: [
                                 Expanded(
                                   child: CustomTextField(
-                                    titleText: '_national_id'.tr,
+                                    titleText: 'national id'.tr,
                                     hintText: '12345678dfgh'.tr,
                                     controller: _national_id,
                                     focusNode: _national_idFocus,
@@ -1452,8 +1473,8 @@ _registerStep2(SimbaDesktopController authController) async {
                                     width: Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
-                                    titleText: 'Middle Name'.tr,
-                                    hintText: 'ex_doe'.tr,
+                                    titleText: 'Social Security No.'.tr,
+                                    hintText: 'GFD5454545'.tr,
                                     controller: _ssn,
                                     focusNode: _ssnFocus,
                                     nextFocus: _driving_licenseFocus,
@@ -1473,8 +1494,8 @@ _registerStep2(SimbaDesktopController authController) async {
                                 ResponsiveHelper.isDesktop(context)
                                     ? Expanded(
                                         child: CustomTextField(
-                                          titleText: 'Email'.tr,
-                                          hintText: 'enter_email'.tr,
+                                          titleText: 'driving license'.tr,
+                                          hintText: ' '.tr,
                                           controller: _driving_license,
                                           focusNode: _driving_licenseFocus,
                                           nextFocus:
@@ -1819,15 +1840,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                     height: Dimensions.paddingSizeLarge),
 
 
-
-
-
-                  // final TextEditingController _email_address = TextEditingController();
-
-                  // final FocusNode _emergency_contact_relationshipFocus = FocusNode();
-                  // final FocusNode _emergency_contact_phoneFocus = FocusNode();
-                  // final FocusNode _email_addressFocus = FocusNode();
-
+             
                                 Row(children: [
                                   ResponsiveHelper.isDesktop(context)
                                       ? Expanded(
@@ -1888,6 +1901,56 @@ _registerStep2(SimbaDesktopController authController) async {
         );
         
   }
+
+    final TextEditingController current_job_title = TextEditingController();
+    final TextEditingController employment_history = TextEditingController();
+    final TextEditingController institutions_attended = TextEditingController();
+    final TextEditingController highest_education = TextEditingController();
+    final TextEditingController graduation_years = TextEditingController();
+    final TextEditingController skills_or_qualifications = TextEditingController();
+
+    final FocusNode _current_job_titleFocus = FocusNode();
+    final FocusNode _employment_historyFocus = FocusNode();
+    final FocusNode highest_educationFocus = FocusNode();
+    final FocusNode institutions_attendedFocus = FocusNode();
+    final FocusNode _graduation_yearsFocus = FocusNode();
+    final FocusNode _skills_or_qualificationFocus = FocusNode();
+
+   
+  _registerStep4(SimbaDesktopController authController) async {
+      
+      String current_job_t = current_job_title.text.trim();
+      String employment_h = employment_history.text.trim();
+      String institutions_a = institutions_attended.text.trim();
+      String _highest_education = highest_education.text.trim();
+      String _graduation_years = graduation_years.text.trim();
+      String skills_or_qualifi = skills_or_qualifications.text.trim();
+
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String userId2 = prefs.getString('user_id') ?? '';
+      
+      Profiles profilesS4 = Profiles(
+        currentJobTitle: current_job_t, 
+        employmentHistory: employment_h,
+        institutionsAttended: institutions_a, 
+        highestEducation: _highest_education,
+        graduationYears: _graduation_years, 
+        skillsOrQualifications: skills_or_qualifi,
+
+        userId: userId2,
+        // residentialAddress: residential_address,
+        // mailingAddress: mailing_address,
+        // emergencyContactName: emergency_contact_name,
+        // emergencyContactRelationship: emergency_contact_relationship,
+        // emergencyContactPhone: emergency_contact_phone
+      );
+
+       authController.registerUserS4(profilesS4);
+ }
+
+               
 
 
   Widget _step4(){
@@ -2090,11 +2153,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                 Row(children: [
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'First Name'.tr,
-                                      hintText: 'ex_jhon'.tr,
-                                      controller: _first_name,
-                                      focusNode: _first_nameFocus,
-                                      nextFocus: _last_nameFocus,
+                                      titleText: 'current_job_title'.tr,
+                                      hintText: 'current_job_title'.tr,
+                                      controller: current_job_title,
+                                      focusNode: _current_job_titleFocus,
+                                      nextFocus: _employment_historyFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2106,11 +2169,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                       width: Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Last Name'.tr,
-                                      hintText: 'ex_doe'.tr,
-                                      controller: _last_name,
-                                      focusNode: _last_nameFocus,
-                                      nextFocus: _middle_nameFocus,
+                                      titleText: 'employment_history'.tr,
+                                      hintText: 'employment_history'.tr,
+                                      controller: employment_history,
+                                      focusNode: _employment_historyFocus,
+                                      nextFocus: highest_educationFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2122,11 +2185,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                       width: Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Middle Name'.tr,
-                                      hintText: 'ex_doe'.tr,
-                                      controller: _middle_name,
-                                      focusNode: _middle_nameFocus,
-                                      nextFocus: _emailFocus,
+                                      titleText: 'highest_education'.tr,
+                                      hintText: 'highest_education'.tr,
+                                      controller: highest_education,
+                                      focusNode: highest_educationFocus,
+                                      nextFocus: institutions_attendedFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2142,12 +2205,12 @@ _registerStep2(SimbaDesktopController authController) async {
                                   ResponsiveHelper.isDesktop(context)
                                       ? Expanded(
                                           child: CustomTextField(
-                                            titleText: 'Email'.tr,
-                                            hintText: 'enter_email'.tr,
-                                            controller: _email,
-                                            focusNode: _emailFocus,
+                                            titleText: 'institutions_attended'.tr,
+                                            hintText: 'institutions_attended'.tr,
+                                            controller: institutions_attended,
+                                            focusNode: institutions_attendedFocus,
                                             nextFocus:
-                                                _phone_numbeFocus, //_place_of_birthFocus,
+                                                _graduation_yearsFocus, //_place_of_birthFocus,
                                             inputType: TextInputType.emailAddress,
                                             // prefixImage: Images.mail,
                                             showTitle: ResponsiveHelper.isDesktop(
@@ -2161,11 +2224,25 @@ _registerStep2(SimbaDesktopController authController) async {
                                           : 0),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Phone'.tr,
-                                      hintText: '07062722722'.tr,
-                                      controller: _phone_number,
-                                      focusNode: _phone_numbeFocus,
-                                      nextFocus: _dobFocus,
+                                      titleText: '_graduation_yearsFocus'.tr,
+                                      hintText: '1990'.tr,
+                                      controller: graduation_years,
+                                      focusNode: _graduation_yearsFocus,
+                                      nextFocus: _skills_or_qualificationFocus,
+                                      inputType: TextInputType.phone,
+                                      // prefixImage: Images.mail,
+                                      showTitle:
+                                          ResponsiveHelper.isDesktop(context),
+                                    ),
+                                  ),
+
+                                    Expanded(
+                                    child: CustomTextField(
+                                      titleText: 'skills or qualifications'.tr,
+                                      hintText: 'engineer'.tr,
+                                      controller: skills_or_qualifications,
+                                      focusNode: _graduation_yearsFocus,
+                                      nextFocus: _skills_or_qualificationFocus,
                                       inputType: TextInputType.phone,
                                       // prefixImage: Images.mail,
                                       showTitle:
@@ -2173,124 +2250,16 @@ _registerStep2(SimbaDesktopController authController) async {
                                     ),
                                   )
                                 ]),
+
+
+
                                 const SizedBox(
                                     height: Dimensions.paddingSizeLarge),
 
-                                // _dob
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Date of birth'.tr,
-                                            hintText: '12/12/2023'.tr,
-                                            controller: _dob,
-                                            focusNode: _dobFocus,
-                                            nextFocus: _place_of_birthFocus,
-                                            inputType: TextInputType.emailAddress,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Place of birth'.tr,
-                                      hintText: 'goma'.tr,
-                                      controller: _place_of_birth,
-                                      focusNode: _place_of_birthFocus,
-                                      nextFocus: _nationalityFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Nationality'.tr,
-                                            hintText: 'DRC'.tr,
-                                            controller: _nationality,
-                                            focusNode: _nationalityFocus,
-                                            nextFocus: _marital_statusFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Marital Status'.tr,
-                                      hintText: 'Single'.tr,
-                                      controller: _marital_status,
-                                      focusNode: _marital_statusFocus,
-                                      nextFocus: _genderFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Gender'.tr,
-                                            hintText: 'Male'.tr,
-                                            controller: _gender,
-                                            focusNode: _genderFocus,
-                                            nextFocus: _spouse_nameFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Spouse name'.tr,
-                                      hintText: '_spouse_name'.tr,
-                                      controller: _spouse_name,
-                                      focusNode: _spouse_nameFocus,
-                                      nextFocus: _spouse_nameFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-                              
+                             
                               TextButton(
                                         onPressed: () {
-                                          _registerStep3( simbaDesktopController, );
+                                          _registerStep4( simbaDesktopController, );
                                           setState(() {
                                                       _selectedStepIndex = 4;
                                         });
@@ -2309,6 +2278,67 @@ _registerStep2(SimbaDesktopController authController) async {
         
   }
 
+    final TextEditingController privacy_policy_ack = TextEditingController();
+    final TextEditingController facial_data = TextEditingController();
+    final TextEditingController password = TextEditingController();
+    final TextEditingController fingerprint_data = TextEditingController();
+    final TextEditingController audit_logs = TextEditingController();
+    final TextEditingController retina_scan = TextEditingController();
+    final TextEditingController languages_spoken = TextEditingController();
+    final TextEditingController medical_history = TextEditingController();
+    final TextEditingController known_allergies = TextEditingController();
+    final TextEditingController blood_type = TextEditingController();
+    final FocusNode _privacy_policy_ackFocus = FocusNode();
+    final FocusNode _facial_dataFocus = FocusNode();
+    final FocusNode passwordFocus = FocusNode();
+    final FocusNode _fingerprint_dataFocus = FocusNode();
+    final FocusNode _audit_logsFocus = FocusNode();
+    final FocusNode _retina_scanFocus = FocusNode();
+    final FocusNode _languages_spokenFocus = FocusNode();
+    final FocusNode _medical_historyeFocus = FocusNode();
+    final FocusNode _known_allergiesFocus = FocusNode();
+    final FocusNode _blood_typeFocus = FocusNode();
+  
+
+
+
+  _registerStep5(SimbaDesktopController authController) async {
+      
+      String privacy = privacy_policy_ack.text.trim();
+      String facial = facial_data.text.trim();
+      String _password = "123456";
+      String _fingerprint_data = fingerprint_data.text.trim();
+      String _audit_logs = graduation_years.text.trim();
+      String _retina_scan = skills_or_qualifications.text.trim();
+      String _languages_spoken = '';
+      String _medical_history = '';
+      String _known_allergies = '';
+      String _blood_type =blood_type.text.trim();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String userId2 = prefs.getString('user_id') ?? '';
+      
+      Profiles profilesS5 = Profiles(
+       
+       userId: userId2,
+
+      // privacyPolicyAck: true,
+      facialData: facial,
+      password: "123456",
+      fingerprintData: _fingerprint_data,
+      auditLogs: "",
+      retinaScan: _retina_scan,
+      languagesSpoken: _languages_spoken,
+      medicalHistory: _medical_history,
+      knownAllergies: _known_allergies,
+      bloodType: _blood_type,
+    
+     );
+
+       authController.registerUserS5(profilesS5);
+ }
+  
   Widget _step5(){
     return GetBuilder<SimbaDesktopController>(
               builder: (simbaDesktopController) {
@@ -2345,7 +2375,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                     )),
                                 40.height,
                               
-                              
+             
                                 Row(
                                   crossAxisAlignment:CrossAxisAlignment.center,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -2509,11 +2539,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                 Row(children: [
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'First Name'.tr,
-                                      hintText: 'ex_jhon'.tr,
-                                      controller: _first_name,
-                                      focusNode: _first_nameFocus,
-                                      nextFocus: _last_nameFocus,
+                                      titleText: 'facial_data'.tr,
+                                      hintText: 'add photos'.tr,
+                                      controller: facial_data,
+                                      focusNode: _facial_dataFocus,
+                                      nextFocus: _fingerprint_dataFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2525,11 +2555,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                       width: Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Last Name'.tr,
+                                      titleText: 'fingerprint_data'.tr,
                                       hintText: 'ex_doe'.tr,
-                                      controller: _last_name,
-                                      focusNode: _last_nameFocus,
-                                      nextFocus: _middle_nameFocus,
+                                      controller: fingerprint_data,
+                                      focusNode: _fingerprint_dataFocus,
+                                      nextFocus: _languages_spokenFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2541,11 +2571,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                       width: Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Middle Name'.tr,
-                                      hintText: 'ex_doe'.tr,
-                                      controller: _middle_name,
-                                      focusNode: _middle_nameFocus,
-                                      nextFocus: _emailFocus,
+                                      titleText: 'known allergies'.tr,
+                                      hintText: 'no'.tr,
+                                      controller: known_allergies,
+                                      focusNode: _known_allergiesFocus,
+                                      nextFocus: _languages_spokenFocus,
                                       inputType: TextInputType.name,
                                       capitalization: TextCapitalization.words,
                                       prefixIcon: Icons.person,
@@ -2561,143 +2591,32 @@ _registerStep2(SimbaDesktopController authController) async {
                                   ResponsiveHelper.isDesktop(context)
                                       ? Expanded(
                                           child: CustomTextField(
-                                            titleText: 'Email'.tr,
-                                            hintText: 'enter_email'.tr,
-                                            controller: _email,
-                                            focusNode: _emailFocus,
+                                            titleText: 'languages spoken'.tr,
+                                            hintText: 'languages spoken'.tr,
+                                            controller: languages_spoken,
+                                            focusNode: _medical_historyeFocus,
                                             nextFocus:
-                                                _phone_numbeFocus, //_place_of_birthFocus,
-                                            inputType: TextInputType.emailAddress,
+                                                _blood_typeFocus, //_place_of_birthFocus,
+                                            inputType: TextInputType.name,
                                             // prefixImage: Images.mail,
                                             showTitle: ResponsiveHelper.isDesktop(
                                                 context),
                                           ),
                                         )
                                       : const SizedBox(),
+                                  
                                   SizedBox(
                                       width: ResponsiveHelper.isDesktop(context)
                                           ? Dimensions.paddingSizeSmall
                                           : 0),
                                   Expanded(
                                     child: CustomTextField(
-                                      titleText: 'Phone'.tr,
-                                      hintText: '07062722722'.tr,
-                                      controller: _phone_number,
-                                      focusNode: _phone_numbeFocus,
+                                      titleText: 'blood_type'.tr,
+                                      hintText: 'A+'.tr,
+                                      controller: blood_type,
+                                      focusNode: _blood_typeFocus,
                                       nextFocus: _dobFocus,
-                                      inputType: TextInputType.phone,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-
-                                // _dob
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Date of birth'.tr,
-                                            hintText: '12/12/2023'.tr,
-                                            controller: _dob,
-                                            focusNode: _dobFocus,
-                                            nextFocus: _place_of_birthFocus,
-                                            inputType: TextInputType.emailAddress,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Place of birth'.tr,
-                                      hintText: 'goma'.tr,
-                                      controller: _place_of_birth,
-                                      focusNode: _place_of_birthFocus,
-                                      nextFocus: _nationalityFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Nationality'.tr,
-                                            hintText: 'DRC'.tr,
-                                            controller: _nationality,
-                                            focusNode: _nationalityFocus,
-                                            nextFocus: _marital_statusFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Marital Status'.tr,
-                                      hintText: 'Single'.tr,
-                                      controller: _marital_status,
-                                      focusNode: _marital_statusFocus,
-                                      nextFocus: _genderFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
-
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Gender'.tr,
-                                            hintText: 'Male'.tr,
-                                            controller: _gender,
-                                            focusNode: _genderFocus,
-                                            nextFocus: _spouse_nameFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Spouse name'.tr,
-                                      hintText: '_spouse_name'.tr,
-                                      controller: _spouse_name,
-                                      focusNode: _spouse_nameFocus,
-                                      nextFocus: _spouse_nameFocus,
-                                      inputType: TextInputType.name,
+                                      // inputType: TextInputType.phone,
                                       // prefixImage: Images.mail,
                                       showTitle:
                                           ResponsiveHelper.isDesktop(context),
@@ -2707,9 +2626,12 @@ _registerStep2(SimbaDesktopController authController) async {
                                 const SizedBox(
                                     height: Dimensions.paddingSizeLarge),
                               
+                            const SizedBox(
+                                    height: Dimensions.paddingSizeLarge),
+                              
                               TextButton(
                                         onPressed: () {
-                                          _register( simbaDesktopController, );
+                                          _registerStep5( simbaDesktopController, );
                                           setState(() {
                                                       _selectedStepIndex = 5;
                                         });
@@ -2726,6 +2648,204 @@ _registerStep2(SimbaDesktopController authController) async {
           }
         );
         
+  }
+
+
+
+
+
+
+
+
+ final TextEditingController userIdController = TextEditingController();
+  final ImagePicker _imagePicker = ImagePicker();
+  List<XFile?> images = [null, null, null];
+
+  // Future<void> _uploadImages() async {
+
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //     // String userId2 = prefs.getString('user_id') ?? '';
+  //   final user_id =  prefs.getString('user_id') ?? '';
+
+  //   if (user_id.isEmpty || images.contains(null)) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Please fill in all fields and select images")),
+  //     );
+  //     return;
+  //   }
+
+  //   try {
+  //     // Convert the images to bytes
+  //     List<List<int>> imageBytes = [];
+  //     for (XFile? imageFile in images) {
+  //       if (imageFile != null) {
+  //         final bytes = await imageFile.readAsBytes();
+  //         imageBytes.add(bytes);
+  //       }
+  //     }
+
+  //     // Send the images to your backend
+  //     final response = await http.post(
+  //       Uri.parse('http://127.0.0.1:8080/kycphotos2'),
+  //       // headers: {
+  //       //   'Content-Type': 'multipart/form-data',
+  //       // },
+  //       body: {
+  //         'user_id': user_id,
+  //         'front_photo': base64Encode(imageBytes[0]),
+  //         'left_photo': base64Encode(imageBytes[1]),
+  //         'right_photo': base64Encode(imageBytes[2]),
+  //       },
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Images uploaded successfully")),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Error uploading images. Please try again.")),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Error: $e")),
+        
+  //     );
+  //     print("Error: $e");
+  //   }
+  // }
+
+  // Future<void> _selectImage(int index) async {
+  //   final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       images[index] = pickedFile;
+  //     });
+  //   }
+  // }
+//  Future<void> _uploadImages() async {
+    
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+//     final user_id = prefs.getString('user_id') ?? '';
+
+//     if (user_id.isEmpty || images.contains(null)) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text("Please fill in all fields and select images")),
+//       );
+//       return;
+//     }
+
+//     try {
+//       final request = http.MultipartRequest(
+//         'POST',
+//         Uri.parse('http://127.0.0.1:8080/kycphotos1'),
+//       );
+
+   
+//       request.fields['user_id'] = user_id;
+
+//       for (int i = 0; i < 3; i++) {
+//         if (images[i] != null) {
+//           final file = File(images[i]!.path);
+
+//           final mimeType = lookupMimeType(file.path);
+//           final multipartFile = await http.MultipartFile.fromPath(
+//             'image$i', // This should match the field name expected by your backend
+//             file.path,
+//             contentType: MediaType.parse(mimeType!),
+//           );
+
+//           request.files.add(multipartFile);
+//         }
+//       }
+
+//       final response = await request.send();
+
+//       if (response.statusCode == 200) {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text("Images uploaded successfully")),
+        // );
+//       } else {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text("Error uploading images. Please try again.")),
+//         );
+//       }
+//     } catch (e) {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text("Error: $e")),
+      // );
+//     }
+//   }
+
+//   Future<void> _selectImage(int index) async {
+//     final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+//     if (pickedFile != null) {
+//       setState(() {
+//         images[index] = pickedFile;
+//       });
+//     }
+//   }
+
+
+
+ File? _image;
+
+  // Function to pick an image from the device's gallery
+  Future<void> _pickImage() async {
+    final imagePicker = ImagePicker();
+    final pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
+
+  // Function to upload the selected image to the server
+  Future<void> _uploadImage() async {
+    if (_image == null) {
+      // No image selected, show an error message or handle it as needed
+      return;
+    }
+
+    final url = Uri.parse('http://localhost:8080/kycphotos1'); // Replace with your server's upload image endpoint
+
+SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final user_id = prefs.getString('user_id') ?? '';
+    
+
+    final request = http.MultipartRequest('POST', url);
+    request.fields['user_id'] = user_id; // Replace with the actual user ID
+
+    
+    final imageFile = await http.MultipartFile.fromPath('image', _image!.path);
+    request.files.add(imageFile);
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        // Image uploaded successfully, handle the response as needed
+        print('Image uploaded successfully');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Images uploaded successfully")),
+        );
+      } else {
+        // Handle the error, e.g., server error or image upload failed
+        print('Image upload failed: ${response.statusCode}');
+        
+      }
+    } catch (e) {
+      // Handle network or request error
+      print('Request error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
   }
 
   Widget _step6(){
@@ -2750,392 +2870,252 @@ _registerStep2(SimbaDesktopController authController) async {
                           child: SingleChildScrollView(
                               child: Padding(
                             padding: const EdgeInsets.all(28.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                30.height,
-                                Text("Registration",
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: rubikMedium.copyWith(
-                                      wordSpacing: 3,
-                                      fontSize: Dimensions.fontSizeOverLarge,
-                                      color: Color.fromARGB(255, 19, 18, 18),
-                                    )),
-                                40.height,
+                            child:  Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+           Center(
+        child: Column(
+          children: <Widget>[
+            if (_image != null) Image.file(_image!),
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: Text('Pick an Image'),
+            ),
+            ElevatedButton(
+              onPressed: _uploadImage,
+              child: Text('Upload Image'),
+            ),
+          ],
+        ),
+      ),
+          ],
+        ),
+      ),
+//                             Column(
+//                               mainAxisAlignment: MainAxisAlignment.center,
+//                               children: [
+//                                 30.height,
+//                                 Text("Registration",
+//                                     textAlign: TextAlign.center,
+//                                     maxLines: 2,
+//                                     style: rubikMedium.copyWith(
+//                                       wordSpacing: 3,
+//                                       fontSize: Dimensions.fontSizeOverLarge,
+//                                       color: Color.fromARGB(255, 19, 18, 18),
+//                                     )),
+//                                 40.height,
                               
                               
-                                Row(
-                                  crossAxisAlignment:CrossAxisAlignment.center,
-                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                  children: [
+//                                 Row(
+//                                   crossAxisAlignment:CrossAxisAlignment.center,
+//                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
+//                                   children: [
                                     
-                                    // one
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("1"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Personal Information",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                        Expanded(child: Line()),
+//                                     // one
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("1"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Personal Information",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                         Expanded(child: Line()),
                                     
-                                    // two
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("2"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Identification & Legal Status",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                            Expanded(child: Line()),
-                                    // three
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("3"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Contact & Emergency",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                            Expanded(child: Line()),
-                                    // four
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("4"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Employment & Education",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                      Expanded(child: Line()),
-                                    // five
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("5"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Medical & Miscellaneous",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                            Expanded(child: Line()),
+//                                     // two
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("2"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Identification & Legal Status",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                             Expanded(child: Line()),
+//                                     // three
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("3"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Contact & Emergency",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                             Expanded(child: Line()),
+//                                     // four
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("4"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Employment & Education",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                       Expanded(child: Line()),
+//                                     // five
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("5"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Medical & Miscellaneous",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                             Expanded(child: Line()),
 
-                                    // six
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          color: Color.fromARGB(255, 2, 93, 13),
-                                          child: Center(
-                                            child: Text("6"),
-                                          ),
-                                        ).cornerRadiusWithClipRRect(50),
-                                        15.height,
-                                        Text("Biomatrics Information",
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            style: rubikMedium.copyWith(
-                                              wordSpacing: 3,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
-                                              color: Color.fromARGB(
-                                                  255, 19, 18, 18),
-                                            ))
-                                      ],
-                                    ),
-                                  ],
-                                ),
+//                                     // six
+//                                     Column(
+//                                       children: [
+//                                         Container(
+//                                           height: 50,
+//                                           width: 50,
+//                                           color: Color.fromARGB(255, 2, 93, 13),
+//                                           child: Center(
+//                                             child: Text("6"),
+//                                           ),
+//                                         ).cornerRadiusWithClipRRect(50),
+//                                         15.height,
+//                                         Text("Biomatrics Information",
+//                                             textAlign: TextAlign.center,
+//                                             maxLines: 2,
+//                                             style: rubikMedium.copyWith(
+//                                               wordSpacing: 3,
+//                                               fontSize:
+//                                                   Dimensions.fontSizeSmall,
+//                                               color: Color.fromARGB(
+//                                                   255, 19, 18, 18),
+//                                             ))
+//                                       ],
+//                                     ),
+//                                   ],
+//                                 ),
 
-                                60.height,
-                                Row(children: [
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'First Name'.tr,
-                                      hintText: 'ex_jhon'.tr,
-                                      controller: _first_name,
-                                      focusNode: _first_nameFocus,
-                                      nextFocus: _last_nameFocus,
-                                      inputType: TextInputType.name,
-                                      capitalization: TextCapitalization.words,
-                                      prefixIcon: Icons.person,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                      width: Dimensions.paddingSizeSmall),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Last Name'.tr,
-                                      hintText: 'ex_doe'.tr,
-                                      controller: _last_name,
-                                      focusNode: _last_nameFocus,
-                                      nextFocus: _middle_nameFocus,
-                                      inputType: TextInputType.name,
-                                      capitalization: TextCapitalization.words,
-                                      prefixIcon: Icons.person,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                      width: Dimensions.paddingSizeSmall),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Middle Name'.tr,
-                                      hintText: 'ex_doe'.tr,
-                                      controller: _middle_name,
-                                      focusNode: _middle_nameFocus,
-                                      nextFocus: _emailFocus,
-                                      inputType: TextInputType.name,
-                                      capitalization: TextCapitalization.words,
-                                      prefixIcon: Icons.person,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
+//                                 60.height,
+//                         Text('upload_your_image'.tr, style: rubikRegular),
+//                 const SizedBox(height: Dimensions.paddingSizeDefault,),
 
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Email'.tr,
-                                            hintText: 'enter_email'.tr,
-                                            controller: _email,
-                                            focusNode: _emailFocus,
-                                            nextFocus:
-                                                _phone_numbeFocus, //_place_of_birthFocus,
-                                            inputType: TextInputType.emailAddress,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Phone'.tr,
-                                      hintText: '07062722722'.tr,
-                                      controller: _phone_number,
-                                      focusNode: _phone_numbeFocus,
-                                      nextFocus: _dobFocus,
-                                      inputType: TextInputType.phone,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
+//                 Container(
+//                   height: 100,padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+//                   child: Row(
+//                         children: [
+//                           Stack(
+//                             children: [
 
-                                // _dob
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Date of birth'.tr,
-                                            hintText: '12/12/2023'.tr,
-                                            controller: _dob,
-                                            focusNode: _dobFocus,
-                                            nextFocus: _place_of_birthFocus,
-                                            inputType: TextInputType.emailAddress,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Place of birth'.tr,
-                                      hintText: 'goma'.tr,
-                                      controller: _place_of_birth,
-                                      focusNode: _place_of_birthFocus,
-                                      nextFocus: _nationalityFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
+//                               Positioned(
+//                                 bottom:0,right:0,
+//                                 child: InkWell(
+//                                   onTap :() {},
+//                                   child: Container(
+//                                       decoration: BoxDecoration(
+//                                           color: Colors.red.withOpacity(0.2),
+//                                           borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))
+//                                       ),
+//                                       child: const Padding(
+//                                         padding: EdgeInsets.all(5.0),
+//                                         child: Icon(Icons.delete_outline,color: Colors.red,size: 16,),
+//                                       )),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                           const SizedBox(width: Dimensions.paddingSizeDefault),
+//                         ],
+//                       ) //:const SizedBox();
+// ,
+//                 ),
+//                 const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Nationality'.tr,
-                                            hintText: 'DRC'.tr,
-                                            controller: _nationality,
-                                            focusNode: _nationalityFocus,
-                                            nextFocus: _marital_statusFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Marital Status'.tr,
-                                      hintText: 'Single'.tr,
-                                      controller: _marital_status,
-                                      focusNode: _marital_statusFocus,
-                                      nextFocus: _genderFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
 
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
-                                          child: CustomTextField(
-                                            titleText: 'Gender'.tr,
-                                            hintText: 'Male'.tr,
-                                            controller: _gender,
-                                            focusNode: _genderFocus,
-                                            nextFocus: _spouse_nameFocus,
-                                            inputType: TextInputType.name,
-                                            // prefixImage: Images.mail,
-                                            showTitle: ResponsiveHelper.isDesktop(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  SizedBox(
-                                      width: ResponsiveHelper.isDesktop(context)
-                                          ? Dimensions.paddingSizeSmall
-                                          : 0),
-                                  Expanded(
-                                    child: CustomTextField(
-                                      titleText: 'Spouse name'.tr,
-                                      hintText: '_spouse_name'.tr,
-                                      controller: _spouse_name,
-                                      focusNode: _spouse_nameFocus,
-                                      nextFocus: _spouse_nameFocus,
-                                      inputType: TextInputType.name,
-                                      // prefixImage: Images.mail,
-                                      showTitle:
-                                          ResponsiveHelper.isDesktop(context),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(
-                                    height: Dimensions.paddingSizeLarge),
+               
+//                                 const SizedBox(
+//                                     height: Dimensions.paddingSizeLarge),
                               
-                              TextButton(
-                                        onPressed: () {
-                                          _register( simbaDesktopController, );
-                                          setState(() {
-                                                      _selectedStepIndex = 6;
-                                        });
-                                        },child: Text("Next") ),],
-
-                              
-                            ),
+//                                     TextButton(
+//                                         onPressed: () {
+//                                           _register( simbaDesktopController, );
+//                                           setState(() {
+//                                                       _selectedStepIndex = 6;
+//                                         });
+//                                         },child: Text("Next") ),
+                                        
+//                               ],
+//                             ),
                             
                           )
                           )

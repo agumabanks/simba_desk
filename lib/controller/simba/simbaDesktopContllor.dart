@@ -130,7 +130,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
         
       // Handle success
       if (kDebugMode) {
-        
+
          SharedPreferences prefs = await SharedPreferences.getInstance();
          String userId2 = prefs.getString('user_id') ?? '';
         print(userId2);
@@ -145,10 +145,84 @@ class SimbaDesktopController extends GetxController implements GetxService {
   }
 
 
-// registerUserS3
+// registerUserS3 registerUserS4
 Future<void> registerUserS3(Profiles profiles) async {
     const String url = "http://127.0.0.1:8080/updatecontactInfo";
     final Map<String, dynamic> parameters = profiles.toJson();
+
+
+    final Uri uri = Uri.parse(url).replace(queryParameters: parameters);
+    final http.Response response = await http.get(uri);
+    if (response.statusCode == 200) {
+      
+        final parsedJson = json.decode(response.body);
+        storage.write('user_id', parsedJson['user_id']);
+
+      // Handle success
+      if (kDebugMode) {
+        print("Success: ${response.body}");
+      }
+    } else {
+      // Handle failure
+      if (kDebugMode) {
+        print("Failure: ${response.body}");
+      }
+    }
+  }
+
+Future<void> registerUserS4(Profiles profiles) async {
+    const String url = "http://127.0.0.1:8080/updateemplotInfo";
+    final Map<String, dynamic> parameters = profiles.toJson();
+
+
+    final Uri uri = Uri.parse(url).replace(queryParameters: parameters);
+    final http.Response response = await http.get(uri);
+    if (response.statusCode == 200) {
+      
+        final parsedJson = json.decode(response.body);
+        storage.write('user_id', parsedJson['user_id']);
+
+      // Handle success
+      if (kDebugMode) {
+        print("Success: ${response.body}");
+      }
+    } else {
+      // Handle failure
+      if (kDebugMode) {
+        print("Failure: ${response.body}");
+      }
+    }
+  }
+
+Future<void> registerUserS5(Profiles profiles) async {
+    const String url = "http://127.0.0.1:8080/updateDetailedUserInfo";
+    final Map<String, dynamic> parameters = profiles.toJson();
+
+
+    final Uri uri = Uri.parse(url).replace(queryParameters: parameters);
+    final http.Response response = await http.get(uri);
+    if (response.statusCode == 200) {
+      
+        final parsedJson = json.decode(response.body);
+        storage.write('user_id', parsedJson['user_id']);
+
+      // Handle success
+      if (kDebugMode) {
+        print("Success: ${response.body}");
+      }
+    } else {
+      // Handle failure
+      if (kDebugMode) {
+        print("Failure: ${response.body}");
+      }
+    }
+  }
+
+
+Future<void> registerUserS6(Profiles profiles) async {
+    const String url = "http://127.0.0.1:8080/kycphotos";
+    final Map<String, dynamic> parameters = profiles.toJson();
+
 
 
     final Uri uri = Uri.parse(url).replace(queryParameters: parameters);
