@@ -6,8 +6,8 @@ import 'images.dart';
 
 class AppConstants {
   static const String appName = 'Simba';
-  static const String baseUrl =  'http://localhost:8080'; //'https://finmicro.sanaa.co';
-
+  static const String baseUrl =  'http://localhost:8080'; //'https://finmicro.sanaa.co';atic 
+  static const String mainUrls = "http://192.168.11.105:8080/"; //getallusers http://127.0.0.1:8080/ 159.89.80.33 
   static const bool demo = false;
    static const double appVersion = 1.0;
    static const String fontFamily = 'Roboto';

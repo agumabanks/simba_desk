@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:simbadesketop/util/app_constants.dart';
 import 'package:simbadesketop/util/dimensions.dart';
 
+const textColorLight = Color.fromARGB(255, 140, 143, 142);
 const rubikLight = TextStyle(
   fontFamily: 'Rubik',
   fontWeight: FontWeight.w300,

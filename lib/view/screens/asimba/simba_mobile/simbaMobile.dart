@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/simbaDesktop.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/simbaMobile.dart';
 
 class SimbaMobileScreen extends StatefulWidget {
   const SimbaMobileScreen({super.key});
@@ -12,7 +14,7 @@ class _SimbaMobileScreenState extends State<SimbaMobileScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child:  Text("helllo am simba mobile")
+        child:  SimbaMobScreen()//SimbaDesktopScreen()
     ));
   }
 }

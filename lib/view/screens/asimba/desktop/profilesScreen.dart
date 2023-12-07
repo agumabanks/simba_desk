@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
+import 'package:simbadesketop/util/app_constants.dart';
 
 class ProfilesScreen extends StatefulWidget {
   const ProfilesScreen({super.key});
@@ -72,7 +73,12 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                                         right: 5,
                                         bottom: 5,
                                         child: Image.network(
-                                          'http://localhost:8080/imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}',
+                                          // `${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}`
+
+                                          '${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}',
+                                          // http://192.168.11.100:8080/imagefile?path=./uploads/14a5f358-74c2-11ee-88bc-8c859014fd23/test.png
+                                          //     "front_photo_url": "./uploads/b0e6e11e-74c7-11ee-88bd-8c859014fd23/test.png",
+
                                           loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                             if (loadingProgress == null) {
                                               return child;

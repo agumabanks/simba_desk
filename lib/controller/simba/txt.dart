@@ -1,130 +1,66 @@
 // import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:image_picker/image_picker.dart';
-// import 'package:http_parser/http_parser.dart';
-// import 'package:mime/mime.dart';
-// import 'dart:convert';
-// import 'dart:io';
 
-// void main() => runApp(MyApp());
+// void main() {
+//   runApp(MyApp());
+// }
 
 // class MyApp extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       home: UploadPhotosScreen(),
+//       home: KYCVerificationScreen(),
 //     );
 //   }
 // }
 
-// class UploadPhotosScreen extends StatefulWidget {
+// class KYCVerificationScreen extends StatefulWidget {
 //   @override
-//   _UploadPhotosScreenState createState() => _UploadPhotosScreenState();
+//   _KYCVerificationScreenState createState() => _KYCVerificationScreenState();
 // }
 
-// class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
-//   final TextEditingController userIdController = TextEditingController();
-//   final ImagePicker _imagePicker = ImagePicker();
-//   List<XFile?> images = [null, null, null];
-
-//   Future<void> _uploadImages() async {
-    
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-//     final user_id = prefs.getString('user_id') ?? '';
-
-//     if (user_id.isEmpty || images.contains(null)) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text("Please fill in all fields and select images")),
-//       );
-//       return;
-//     }
-
-//     try {
-//       final request = http.MultipartRequest(
-//         'POST',
-//         Uri.parse('http://127.0.0.1:8080/kycphotos2'),
-//       );
-
-   
-//       request.fields['user_id'] = user_id;
-
-//       for (int i = 0; i < 3; i++) {
-//         if (images[i] != null) {
-//           final file = File(images[i]!.path);
-
-//           final mimeType = lookupMimeType(file.path);
-//           final multipartFile = await http.MultipartFile.fromPath(
-//             'image$i', // This should match the field name expected by your backend
-//             file.path,
-//             contentType: MediaType.parse(mimeType!),
-//           );
-
-//           request.files.add(multipartFile);
-//         }
-//       }
-
-//       final response = await request.send();
-
-//       if (response.statusCode == 200) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text("Images uploaded successfully")),
-//         );
-//       } else {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text("Error uploading images. Please try again.")),
-//         );
-//       }
-//     } catch (e) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text("Error: $e")),
-//       );
-//     }
-//   }
-
-//   Future<void> _selectImage(int index) async {
-//     final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-//     if (pickedFile != null) {
-//       setState(() {
-//         images[index] = pickedFile;
-//       });
-//     }
-//   }
+// class _KYCVerificationScreenState extends State<KYCVerificationScreen> {
+//   bool isCapturing = false;
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: Text('Upload Photos'),
+//         title: Text('KYC Verification'),
 //       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
+//       body: Center(
 //         child: Column(
-//           children: [
-//             TextField(
-//               controller: userIdController,
-//               decoration: InputDecoration(labelText: 'User ID'),
-//             ),
-//             SizedBox(height: 16.0),
-//             for (int i = 0; i < 3; i++)
-//               Column(
-//                 children: [
-//                   images[i] != null
-//                       ? Image.file(
-//                           File(images[i]!.path),
-//                           height: 100,
-//                         )
-//                       : Placeholder(),
-//                   ElevatedButton(
-//                     onPressed: () => _selectImage(i),
-//                     child: Text('Select Image $i'),
-//                   ),
-//                 ],
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             AnimatedContainer(
+//               width: isCapturing ? 250.0 : 200.0,
+//               height: isCapturing ? 250.0 : 200.0,
+//               duration: Duration(milliseconds: 500),
+//               decoration: BoxDecoration(
+//                 border: Border.all(
+//                   color: isCapturing ? Colors.green : Colors.black,
+//                   width: isCapturing ? 4.0 : 2.0,
+//                 ),
+//                 borderRadius: isCapturing ? BorderRadius.circular(125.0) : BorderRadius.circular(0.0),
 //               ),
-//             SizedBox(height: 16.0),
-//             ElevatedButton(
-//               onPressed: _uploadImages,
-//               child: Text('Upload Photos'),
+//               child: Center(
+//                 child: Text(
+//                   isCapturing ? 'Capturing...' : 'Capture Your Face',
+//                   style: TextStyle(
+//                     fontSize: isCapturing ? 18.0 : 16.0,
+//                     color: isCapturing ? Colors.white : Colors.black,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(height: 20.0),
+//             RaisedButton(
+//               onPressed: () {
+//                 setState(() {
+//                   isCapturing = true;
+//                   // Add logic to capture the face here
+//                 });
+//               },
+//               child: Text('Capture Face'),
 //             ),
 //           ],
 //         ),

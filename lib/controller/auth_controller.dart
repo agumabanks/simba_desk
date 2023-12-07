@@ -1,7 +1,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -123,7 +122,7 @@ class AuthController extends GetxController implements GetxService {
           bioAuth.stopAuthentication();
         }
       }else{
-       // _checkBiometricWithPin();
+       // _checkBiometricWithPin(); 
       }
     }
   }

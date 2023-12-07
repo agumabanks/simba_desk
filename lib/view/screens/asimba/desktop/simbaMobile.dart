@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,12 @@ import 'package:simbadesketop/view/base/custom_ink_well.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/custom_text_field.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/dashboard.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/profilesScreen.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/reports/reports.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/verification/verificationPage.dart';
+import 'package:simbadesketop/view/screens/asimba/doccuments/doccuments.dart';
 import 'package:simbadesketop/view/screens/asimba/doccuments/idCard.dart';
+// import 'package:simbadesketop/view/screens/asimba/doccuments/idCard.dart';
+import 'package:simbadesketop/view/screens/asimba/simba_mobile/views/graphs.dart';
 // import 'package:simbadesketop/view/base/custom_text_field.dart';
 import 'package:simbadesketop/view/screens/profile/widget/menu_item.dart';
 import 'package:simbadesketop/view/screens/profile/widget/menu_item.dart';
@@ -44,14 +49,14 @@ import 'dart:convert';
 import 'dart:io';
 
 
-class SimbaDesktopScreen extends StatefulWidget {
-  const SimbaDesktopScreen({super.key});
+class SimbaMobScreen extends StatefulWidget {
+  const SimbaMobScreen({super.key});
 
   @override
-  State<SimbaDesktopScreen> createState() => _SimbaDesktopScreenState();
+  State<SimbaMobScreen> createState() => _SimbaMobScreenState();
 }
 
-class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
+class _SimbaMobScreenState extends State<SimbaMobScreen> {
   Future<void> _loadData(BuildContext context, bool reload) async {
     if (reload) {
       Get.find<SimbaDesktopController>().getProfilesList();
@@ -61,9 +66,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
 
   @override
   void initState() {
-    Get.find<SimbaDesktopController>().getProfilesList();
-    //  Get.find<SimbaDesktopController>().getProfilesList();
-    // final userId = storage.read('user_id');
+    Get.find<SimbaDesktopController>().getProfilesList();               
     super.initState();
   }
 
@@ -148,7 +151,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                       child: Container(
                         color: const Color(0xFF162231),
                         padding: const EdgeInsets.fromLTRB(
-                            25, 45, 25, 25), // Sidebar color
+                            18, 45, 17, 25), // Sidebar color
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,6 +165,8 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                 color: Colors.amber,
                               ),
                             ),
+                            
+                            
                             Column(
                               children: [
                                 Column(
@@ -530,7 +535,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'john.doe@example.com',
+                                              'john.doe@sanaa.co',
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 color: Color.fromARGB(
@@ -588,7 +593,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                             
                             Container(
                               // color: Color.fromARGB(31, 135, 135, 135),
-                              height: Get.height / 3.5,
+                              height: Get.height / 3,
                               width: double.infinity,
 
                               decoration: const BoxDecoration(
@@ -651,7 +656,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                   ),
                                 ),
 
-                                  const SizedBox(height: 10,),
+                                  const SizedBox(height: 2,),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                                     child: 
@@ -660,14 +665,14 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                            width:255,  // Set your desired width
-                                            height: 100, // Set your desired height
+                                            width:200,  // Set your desired width
+                                            height: 80, // Set your desired height
                                             decoration: BoxDecoration(
                                               // color: const Color.fromARGB(255, 231, 231, 231), // Set the background color
-                                              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
+                                              borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
                                               border: Border.all(
                                                 color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
-                                                width: 2.0, // Set the border width
+                                                width: 1, // Set the border width
                                               ),
                                             ),
                                             child: Row(
@@ -678,10 +683,10 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                               children: [
 
                                                 Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                                   child: Container(
-                                                      width: 50, // Set your desired width
-                                                      height: 50, // Set your desired height (to make it fully circular, make height and width the same)
+                                                      width: 40, // Set your desired width
+                                                      height: 40, // Set your desired height (to make it fully circular, make height and width the same)
                                                       decoration: const BoxDecoration(
                                                         shape: BoxShape.circle, // Make the container circular
                                                         color: Colors.black, // Set the background color
@@ -689,7 +694,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                                       child: const Center(
                                                         child: Icon(
                                                           Icons.visibility, // Use the eye icon (you can change it to your desired icon)
-                                                          size: 20, // Set the icon size
+                                                          size: 15, // Set the icon size
                                                           color: Colors.white, // Set the icon color
                                                         ),
                                                       ),
@@ -697,195 +702,204 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                                 ),
 
 
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                                  child: Column(
-                                                    mainAxisAlignment:  MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "123456",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: 20,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                
-                                                      Text(
-                                                        "Dashboard",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: Dimensions.fontSizeSmall,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                  
-                                  ,
-                                  15.width,
-                                  Container(
-                                            width:255,  // Set your desired width
-                                            height: 100, // Set your desired height
-                                            decoration: BoxDecoration(
-                                              // color: const Color.fromARGB(255, 231, 231, 231), // Set the background color
-                                              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-                                              border: Border.all(
-                                                color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
-                                                width: 2.0, // Set the border width
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              
-                                              // mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                Center(
                                                   child: Container(
-                                                      width: 50, // Set your desired width
-                                                      height: 50, // Set your desired height (to make it fully circular, make height and width the same)
-                                                      decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle, // Make the container circular
-                                                        color: Colors.black, // Set the background color
-                                                      ),
-                                                      child: const Center(
-                                                        child: Icon(
-                                                          Icons.visibility, // Use the eye icon (you can change it to your desired icon)
-                                                          size: 20, // Set the icon size
-                                                          color: Colors.white, // Set the icon color
+                                                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                                    child: Column(
+                                                      mainAxisAlignment:  MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "123456",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: 20,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
                                                         ),
-                                                      ),
+                                                  
+                                                        Text(
+                                                          "Acctounnts Reg.",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: Dimensions.fontSizeSmall,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                ),
-
-
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                                  child: Column(
-                                                    mainAxisAlignment:  MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "123456",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: 20,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                
-                                                      Text(
-                                                        "Dashboard",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: Dimensions.fontSizeSmall,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                  , 15.width, 
-                                  Container(
-                                            width:255,  // Set your desired width
-                                            height: 100, // Set your desired height
-                                            decoration: BoxDecoration(
-                                              // color: const Color.fromARGB(255, 231, 231, 231), // Set the background color
-                                              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-                                              border: Border.all(
-                                                color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
-                                                width: 2.0, // Set the border width
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              
-                                              // mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                                  child: Container(
-                                                      width: 50, // Set your desired width
-                                                      height: 50, // Set your desired height (to make it fully circular, make height and width the same)
-                                                      decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle, // Make the container circular
-                                                        color: Colors.black, // Set the background color
-                                                      ),
-                                                      child: const Center(
-                                                        child: Icon(
-                                                          Icons.visibility, // Use the eye icon (you can change it to your desired icon)
-                                                          size: 20, // Set the icon size
-                                                          color: Colors.white, // Set the icon color
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ),
-
-
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                                  child: Column(
-                                                    mainAxisAlignment:  MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "123456",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: 20,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                
-                                                      Text(
-                                                        "Dashboard",
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2,
-                                                        style: rubikMedium.copyWith(
-                                                          wordSpacing: 6,
-                                                          fontSize: Dimensions.fontSizeSmall,
-                                                          color: const Color.fromARGB(255, 19, 18, 18),
-                                                        ),
-                                                      ),
-                                                    ],
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                   15.width,
+
+                                   Container(
+                                            width:200,  // Set your desired width
+                                            height: 80, // Set your desired height
+                                            decoration: BoxDecoration(
+                                              // color: const Color.fromARGB(255, 231, 231, 231), // Set the background color
+                                              borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
+                                              border: Border.all(
+                                                color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
+                                                width: 1, // Set the border width
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              
+                                              // mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                  child: Container(
+                                                      width: 40, // Set your desired width
+                                                      height: 40, // Set your desired height (to make it fully circular, make height and width the same)
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle, // Make the container circular
+                                                        color: Colors.black, // Set the background color
+                                                      ),
+                                                      child: const Center(
+                                                        child: Icon(
+                                                          Icons.visibility, // Use the eye icon (you can change it to your desired icon)
+                                                          size: 15, // Set the icon size
+                                                          color: Colors.white, // Set the icon color
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ),
+
+
+                                                Center(
+                                                  child: Container(
+                                                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                                    child: Column(
+                                                      mainAxisAlignment:  MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "3456",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: 20,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
+                                                        ),
+                                                  
+                                                        Text(
+                                                          "Approved Acct",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: Dimensions.fontSizeSmall,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                  15.width,
+
+
+
+                                   Container(
+                                            width:200,  // Set your desired width
+                                            height: 80, // Set your desired height
+                                            decoration: BoxDecoration(
+                                              // color: const Color.fromARGB(255, 231, 231, 231), // Set the background color
+                                              borderRadius: BorderRadius.circular(5.0), // Adjust the radius as needed
+                                              border: Border.all(
+                                                color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
+                                                width: 1, // Set the border width
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              
+                                              // mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                  child: Container(
+                                                      width: 40, // Set your desired width
+                                                      height: 40, // Set your desired height (to make it fully circular, make height and width the same)
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle, // Make the container circular
+                                                        color: Colors.black, // Set the background color
+                                                      ),
+                                                      child: const Center(
+                                                        child: Icon(
+                                                          Icons.visibility, // Use the eye icon (you can change it to your desired icon)
+                                                          size: 15, // Set the icon size
+                                                          color: Colors.white, // Set the icon color
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ),
+
+
+                                                Center(
+                                                  child: Container(
+                                                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                                    child: Column(
+                                                      mainAxisAlignment:  MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "2456",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: 20,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
+                                                        ),
+                                                  
+                                                        Text(
+                                                          "Rejected Acct",
+                                                          textAlign: TextAlign.center,
+                                                          maxLines: 2,
+                                                          style: rubikMedium.copyWith(
+                                                            wordSpacing: 6,
+                                                            fontSize: Dimensions.fontSizeSmall,
+                                                            color: const Color.fromARGB(255, 19, 18, 18),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                  // 15.width,
+                                  15.width,
                                   Container(
-                                            width:255,  // Set your desired width
-                                            height: 100, // Set your desired height
+                                            width:200,  // Set your desired width
+                                            height: 80, // Set your desired height
                                             decoration: BoxDecoration(
                                               color: Color.fromARGB(255, 0, 0, 0), // Set the background color
                                               borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
                                               border: Border.all(
                                                 color: const Color.fromARGB(255, 127, 127, 127), // Set the border color
-                                                width: 2.0, // Set the border width
+                                                width: 1.0, // Set the border width
                                               ),
                                             ),
                                             child: Row(
@@ -898,8 +912,8 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                                 Padding(
                                                   padding: const EdgeInsets.symmetric(horizontal: 20),
                                                   child: Container(
-                                                      width: 50, // Set your desired width
-                                                      height: 50, // Set your desired height (to make it fully circular, make height and width the same)
+                                                      width: 40, // Set your desired width
+                                                      height: 40, // Set your desired height (to make it fully circular, make height and width the same)
                                                       decoration: const BoxDecoration(
                                                         shape: BoxShape.circle, // Make the container circular
                                                         color: Color.fromARGB(255, 255, 255, 255), // Set the background color
@@ -907,7 +921,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                                       child: const Center(
                                                         child: Icon(
                                                           Icons.visibility, // Use the eye icon (you can change it to your desired icon)
-                                                          size: 20, // Set the icon size
+                                                          size: 15, // Set the icon size
                                                           color: Color.fromARGB(255, 0, 0, 0), // Set the icon color
                                                         ),
                                                       ),
@@ -916,13 +930,13 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
 
 
                                                 Container(
-                                                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                                  margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                                   child: Column(
                                                     mainAxisAlignment:  MainAxisAlignment.start,
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        "123456",
+                                                        "1256",
                                                         textAlign: TextAlign.center,
                                                         maxLines: 2,
                                                         style: rubikMedium.copyWith(
@@ -933,7 +947,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                                       ),
                                                 
                                                       Text(
-                                                        "Dashboard",
+                                                        "Active Acct",
                                                         textAlign: TextAlign.center,
                                                         maxLines: 2,
                                                         style: rubikMedium.copyWith(
@@ -962,7 +976,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
 
                             
 
-                          Expanded(child:     LineAreaPointPage())
+                          Expanded(child:     LineAreaPointMobilePage())
                           ],
                         )),
                   ),
@@ -988,7 +1002,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                           borderRadius:
                               BorderRadius.circular(12), // Rounded corners
                         ),
-                        child: const Text("Reports")),
+                        child: ReportsList(),)
                   ),
                 );
         });
@@ -1038,13 +1052,14 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                           borderRadius:
                               BorderRadius.circular(12), // Rounded corners
                         ),
-                        child: PdfPreview(
-                                  maxPageWidth: 700,
-                                  allowSharing: false,
-                                  canChangePageFormat: false, 
-                                  // useActions:false,
-                                  build: (format) => generateCertificate(format,),
-                                ),
+                        child: KYCDocumentsList2()
+                        // PdfPreview(
+                        //           maxPageWidth: 700,
+                        //           allowSharing: false,
+                        //           canChangePageFormat: false, 
+                        //           // useActions:false,
+                        //           build: (format) => generateCertificate(format,),
+                        //         ),
                         ),
                   ),
                 );
@@ -1338,8 +1353,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                   height: Dimensions.paddingSizeLarge),
 
                               Row(children: [
-                                ResponsiveHelper.isDesktop(context)
-                                    ? Expanded(
+                               Expanded(
                                         child: CustomTextField(
                                           titleText: 'Email'.tr,
                                           hintText: 'enter_email'.tr,
@@ -1352,8 +1366,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
                                           showTitle: ResponsiveHelper.isDesktop(
                                               context),
                                         ),
-                                      )
-                                    : const SizedBox(),
+                                      ),
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
@@ -1541,7 +1554,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
 
       Profiles profiles = Profiles(
         username:firstName + last_name, 
-        firstName:firstName, middleName: middle_name, email: email,phoneNumber: phone_number,
+        firstName:firstName, middleName: middle_name, email:email,phoneNumber: phone_number,
         dob: dobup, lastName: last_name, placeOfBirth: place_of_birth,
         gender: gender, nationality: nationality, maritalStatus: marital_status,
         spouseName: spouse_name
@@ -1557,6 +1570,7 @@ class _SimbaDesktopScreenState extends State<SimbaDesktopScreen> {
   final TextEditingController _driving_license = TextEditingController();
 
   final FocusNode _national_idFocus = FocusNode();
+  // final FocusNode _emailFocus = FocusNode();
   final FocusNode _passport_numberFocus = FocusNode();
   final FocusNode _ssnFocus = FocusNode();
   final FocusNode _driving_licenseFocus = FocusNode();
@@ -3133,12 +3147,12 @@ _registerStep2(SimbaDesktopController authController) async {
 //   }
 
 
-
  File? _image;
 
   // Function to pick an image from the device's gallery
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
+    // ignore: deprecated_member_use
     final pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
@@ -3155,7 +3169,7 @@ _registerStep2(SimbaDesktopController authController) async {
       return;
     }
 
-    final url = Uri.parse('${AppConstants.mainUrls} + kycphotos1'); // Replace with your server's upload image endpoint
+    final url = Uri.parse('${AppConstants.mainUrls}kycphotos1'); // Replace with your server's upload image endpoint
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -3204,8 +3218,10 @@ _registerStep2(SimbaDesktopController authController) async {
     }
   }
 
+ 
   Widget _step6(){
-    return GetBuilder<SimbaDesktopController>(
+    return 
+    GetBuilder<SimbaDesktopController>(
               builder: (simbaDesktopController) {
             return simbaDesktopController.profilesList == null
                 ? const Scaffold(body: Center(child: Text("its empty")))
@@ -3233,7 +3249,7 @@ _registerStep2(SimbaDesktopController authController) async {
                               Center(
                             child: Column(
                               children: <Widget>[
-                                if (_image != null) Image.file(_image!),
+                                // if (_image != null) Image.file(_image!),
                                 ElevatedButton(
                                   onPressed: _pickImage,
                                   child: const Text('Pick an Image'),
@@ -3258,7 +3274,6 @@ _registerStep2(SimbaDesktopController authController) async {
         );
         
   }
-
   // last line
 }
 

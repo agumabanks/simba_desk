@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -34,15 +35,21 @@ Future<void> main() async {
         Permission.notification.request();
       }
     });
+
+   
   }
   await Firebase.initializeApp();
-    await GetStorage.init();
+  await GetStorage.init();
 
-  //  cameras = await availableCameras();
+   cameras =await availableCameras();
 
   Map<String, Map<String, String>> languages = await di.init();
 
   int? orderID;
+   SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
   runApp(MyApp(languages: languages, orderID: orderID));
 
 }

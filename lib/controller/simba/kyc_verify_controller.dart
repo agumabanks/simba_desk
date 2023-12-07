@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simbadesketop/data/api/api_checker.dart';
+import 'package:simbadesketop/data/api/api_client.dart';
 import 'package:simbadesketop/data/repository/kyc_verify_repo.dart';
 import 'package:simbadesketop/view/base/custom_snackbar.dart';
-import '../data/api/api_client.dart';
+// import '../data/api/api_client.dart';
 
-class KycVerifyController extends GetxController implements GetxService{
+class SimbaKycVerifyController extends GetxController implements GetxService{
   final KycVerifyRepo kycVerifyRepo;
-  KycVerifyController({required this.kycVerifyRepo});
+  SimbaKycVerifyController({required this.kycVerifyRepo});
   List <XFile>? _imageFile;
   List <XFile>_identityImage = [];
   List<XFile> get identityImage => _identityImage; 

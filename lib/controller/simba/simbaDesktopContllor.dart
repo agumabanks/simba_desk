@@ -11,6 +11,8 @@ import 'package:simbadesketop/data/repository/simbaRepo.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:simbadesketop/util/app_constants.dart';
+
 
 
 class SimbaDesktopController extends GetxController implements GetxService {
@@ -27,14 +29,17 @@ class SimbaDesktopController extends GetxController implements GetxService {
 //  List<Profiles>? _profilesList;
   var _profilesList = <Profiles>[];
 
-  List<Profiles>? get profilesList => _profilesList;
+  List<Profiles>? get 
+  
+  profilesList => _profilesList;
 
 
 
   void getProfilesList() async {
     
+    const String urlMain = "${AppConstants.mainUrls}getallusers";
     final response =
-        await http.get(Uri.parse('http://localhost:8080/getallusers'));
+        await http.get(Uri.parse(urlMain)); //http://localhost:8080/  http://192.168.11.101/
 
     if (response.statusCode == 200) {
       var decodedData = jsonDecode(response.body) as List;
@@ -78,10 +83,6 @@ class SimbaDesktopController extends GetxController implements GetxService {
         _profilesList = decodedData.map((e) => Profiles.fromJson(e)).toList();
         update();
 
-
-
-
-      
       _isLoading = false;
       update();
     }
@@ -89,7 +90,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 
   Future<void> registerUser(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/registerpersional";
+    const String url = "${AppConstants.mainUrls}registerpersional"; //registerpersional
     final Map<String, dynamic> parameters = profiles.toJson();
 
 
@@ -118,7 +119,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 // step 2
  Future<void> registerUserS2(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/updateAdditionalInfo";
+    const String url = "${AppConstants.mainUrls}updateAdditionalInfo";
     final Map<String, dynamic> parameters = profiles.toJson();
 
 
@@ -147,7 +148,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 // registerUserS3 registerUserS4
 Future<void> registerUserS3(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/updatecontactInfo";
+    const String url = "${AppConstants.mainUrls}updatecontactInfo";
     final Map<String, dynamic> parameters = profiles.toJson();
 
 
@@ -171,7 +172,7 @@ Future<void> registerUserS3(Profiles profiles) async {
   }
 
 Future<void> registerUserS4(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/updateemplotInfo";
+    const String url = "${AppConstants.mainUrls}updateemplotInfo";
     final Map<String, dynamic> parameters = profiles.toJson();
 
 
@@ -195,7 +196,7 @@ Future<void> registerUserS4(Profiles profiles) async {
   }
 
 Future<void> registerUserS5(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/updateDetailedUserInfo";
+    const String url = "${AppConstants.mainUrls}updateDetailedUserInfo";
     final Map<String, dynamic> parameters = profiles.toJson();
 
 
@@ -220,7 +221,35 @@ Future<void> registerUserS5(Profiles profiles) async {
 
 
 Future<void> registerUserS6(Profiles profiles) async {
-    const String url = "http://127.0.0.1:8080/kycphotos";
+    const String url = "${AppConstants.mainUrls}kycphotos";
+    final Map<String, dynamic> parameters = profiles.toJson();
+
+
+
+    final Uri uri = Uri.parse(url).replace(queryParameters: parameters);
+    final http.Response response = await http.get(uri);
+    if (response.statusCode == 200) {
+      
+        final parsedJson = json.decode(response.body);
+        storage.write('user_id', parsedJson['user_id']);
+
+      // Handle success
+      if (kDebugMode) {
+        print("Success: ${response.body}");
+      }
+    } else {
+      // Handle failure
+      if (kDebugMode) {
+        print("Failure: ${response.body}");
+      }
+    }
+  }
+
+
+
+
+Future<void> registerUserS(Profiles profiles) async {
+    const String url = "${AppConstants.mainUrls}kycphotos";
     final Map<String, dynamic> parameters = profiles.toJson();
 
 

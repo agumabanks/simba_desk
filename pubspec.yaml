@@ -44,6 +44,8 @@ dependencies:
   get_storage: ^2.1.1
   carousel_slider: ^4.2.1
   webview_flutter: ^4.2.0
+  graphic: ^2.2.1
+  face_camera: ^0.0.8
   flutter_svg: ^2.0.5
   device_preview: ^1.1.0
   flutter_html: ^3.0.0-alpha.6

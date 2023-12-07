@@ -41,13 +41,13 @@ class _KycVerifyScreenState extends State<KycVerifyScreen> {
           builder: (kycVerifyController) {
             return SingleChildScrollView(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                CustomDropDownButton(
+                CustomDropDownButton(                     
                   value: kycVerifyController.dropDownSelectedValue,
                   itemList: kycVerifyController.dropList,
                   onChanged: (value)=> kycVerifyController.dropDownChange(value!),
                 ),
                 const SizedBox(height: Dimensions.fontSizeDefault),
-
+       
                 CustomTextField(
                   controller: _identityNumberController,
                   fillColor: Theme.of(context).cardColor,isShowBorder: true,
@@ -115,11 +115,7 @@ class _KycVerifyScreenState extends State<KycVerifyScreen> {
                     }
                   }, color: Theme.of(context).primaryColor),
                   ),
-                ),
-
-
-
-
+                ), 
               ]),
             );
           }
