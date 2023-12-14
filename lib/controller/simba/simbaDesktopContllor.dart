@@ -12,6 +12,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:simbadesketop/util/app_constants.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/simbaMobile.dart';
+import 'package:simbadesketop/view/screens/asimba/profile/profileScreen.dart';
 
 
 
@@ -35,6 +37,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 
 
+
   void getProfilesList() async {
     
     const String urlMain = "${AppConstants.mainUrls}getallusers";
@@ -53,6 +56,90 @@ class SimbaDesktopController extends GetxController implements GetxService {
         print('Failed to fetch users');
       }
     }
+  }
+
+final List<String> congoProvinces = [
+  'Bas-Uele',
+  'Haut-Uele',
+  'Ituri',
+  'Tshopo',
+  'Nord-Ubangi',
+  'Sud-Ubangi',
+  'Équateur',
+  'Tshuapa',
+  'Mongala',
+  'Nord-Kivu',
+  'Maniema',
+  'Sud-Kivu',
+  'Tanganyika',
+  'Haut-Lomami',
+  'Haut-Uele',
+  'Kasai',
+  'Kasaï-Central',
+  'Kasaï-Oriental',
+  'Sankuru',
+  'Maniema',
+  'Sud-Kasai',
+  'Tanganyika',
+  'Haut-Lomami',
+  'Ituri',
+  'Tshuapa',
+  'Tshopo',
+];
+
+static const List<String> bloodTypes = [
+  'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
+];
+ // API endpoint URL
+  final String apiUrl = "http://159.89.80.33:8080/getuser?user_id=";
+
+  Map<String, dynamic> userProfileData = {};
+
+  void resetUserDetails(){
+    userProfileData = {};
+    update();
+  }
+
+  bool hasData = false;
+
+  Future<void> fetchUserData(String profileId) async {
+    try {
+      final response = await http.get(Uri.parse('$apiUrl$profileId'));
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        userProfileData = json.decode(response.body);
+        hasData = true;
+        print("${userProfileData}");
+       
+      } else {
+        print('Failed to load user data. Status code: ${response.statusCode}');
+      }
+
+      Get.to(KycProfileScreen2(),);
+      // Get.to() => 
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
+
+  Future<void> deletProfile(String userId) async {
+    const String url = "${AppConstants.mainUrls}deleteuser?user_id=";
+    try{
+      final response = await http.get(Uri.parse('$url$userId'));
+
+      if (response.statusCode == 200){
+        getProfilesList();
+        Get.to(SimbaMobScreen());
+      }
+    } catch (e){
+      print('error deleting user $e');
+    }
+
+  }
+
+
+  void getUserProfile(){
+
   }
 // registration
 // Future<ResponseModel> registration(SignUpBody signUpBody) async {

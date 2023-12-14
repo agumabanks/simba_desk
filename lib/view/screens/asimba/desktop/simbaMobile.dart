@@ -3249,7 +3249,7 @@ _registerStep2(SimbaDesktopController authController) async {
                               Center(
                             child: Column(
                               children: <Widget>[
-                                // if (_image != null) Image.file(_image!),
+                                if (_image != null) Image.file(_image!),
                                 ElevatedButton(
                                   onPressed: _pickImage,
                                   child: const Text('Pick an Image'),

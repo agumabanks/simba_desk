@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
 import 'package:simbadesketop/util/app_constants.dart';
+import 'package:simbadesketop/util/dimensions.dart';
+import 'package:simbadesketop/view/screens/asimba/doccuments/docsPage.dart';
+import 'package:simbadesketop/view/screens/asimba/profile/profileScreen.dart';
+import 'package:simbadesketop/view/screens/profile/profile_screen.dart';
 
 class ProfilesScreen extends StatefulWidget {
   const ProfilesScreen({super.key});
@@ -55,76 +59,118 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
 
-                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 213, 213, 213),
-                                  borderRadius:
-                                      BorderRadius.circular(12), // Rounded corners
-                                ),
+
+                                //                 height: 250,
+                                //                 width: 200,
+                                //  decoration: BoxDecoration(
+                                //   color: const Color.fromARGB(255, 213, 213, 213),
+                                //   borderRadius:
+                                //       BorderRadius.circular(12), // Rounded corners
+                                // ),
                                 child: Stack(
                                     children: [
-                                      Container(
-                                        height: 500,
-                                        width: 250,
-                                        color: Colors.white, // Set the background color to white
-                                      ),
-                                      Positioned(
-                                        top: 5,
-                                        left: 5,
-                                        right: 5,
-                                        bottom: 5,
-                                        child: Image.network(
-                                          // `${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}`
+                                      
+                                      Padding(
+                                            padding: const EdgeInsets.all(.0),
+                                            child: Container(
+                                          
+                                                height: 250,
+                                                width: 200,
+                                                decoration: BoxDecoration(
+                                                  image:DecorationImage(image: NetworkImage('${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}',)),
+                                                  color: Color.fromARGB(255, 253, 253, 253),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12), // Rounded corners
+                                                ),
 
-                                          '${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}',
-                                          // http://192.168.11.100:8080/imagefile?path=./uploads/14a5f358-74c2-11ee-88bc-8c859014fd23/test.png
-                                          //     "front_photo_url": "./uploads/b0e6e11e-74c7-11ee-88bd-8c859014fd23/test.png",
+                                                // child: 
+                                              
 
-                                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                value: loadingProgress.expectedTotalBytes != null
-                                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                                    : null,
-                                              ),
-                                            );
-                                          },
-                                          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                            return Text('Image not found');
-                                          },
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 10,
-                                        left: 5,
-                                        right: 5,
-                              
-                                        child: Center(
-                                          child: Container(
-                                            height: 50,
-                                            width: double.infinity,
-                                            color: whiteColor,
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                // Your Text Widgets here
-                                                Text("${simbaDesktopController.profilesList![index].username}"),
-                                                Text("${simbaDesktopController.profilesList![index].phoneNumber}")
-                                                                              
-                                              ],
+                                              
                                             ),
                                           ),
-                                        ),
-                                      ),
+                                          Positioned(
+                                                      bottom: 10,
+                                                      left: 5,
+                                                      right: 5,
+                                            
+                                                      child: Center(
+                                                        child: Container(
+                                                          height: 50,
+                                                          width: double.infinity,
+                                                          color: whiteColor,
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              // Your Text Widgets here
+                                                              Text("${simbaDesktopController.profilesList![index].username}"),
+                                                              Text("${simbaDesktopController.profilesList![index].phoneNumber}")
+                                                                                            
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ).onTap((){
+                         
+                                                          simbaDesktopController.fetchUserData("${simbaDesktopController.profilesList![index].userId}");
+                                                          print("${simbaDesktopController.profilesList![index].userId}");
+                                                          
+                                                        }),
+                                                    ),
+
+                                                    Positioned(
+                                                        top:10,
+                                                        right:10,
+                                                        child: InkWell(
+                                                          onTap :() => simbaDesktopController.deletProfile('${simbaDesktopController.profilesList![index].userId}'), //kycVerifyController.removeImage(index),
+                                                          child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors.red.withOpacity(0.2),
+                                                                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))
+                                                              ),
+                                                              child: const Padding(
+                                                                padding: EdgeInsets.all(5.0),
+                                                                child: Icon(Icons.delete_outline,color: Colors.red,size: 16,),
+                                                              )),
+                                                        ),
+                                                      ),
+
+                                                  
+                                                    
+                                                    // Positioned(child: Icon(Icons.delete_outline,color: Colors.red,size: 16,),)
+                                      // Positioned(
+                                      //   top: 5,
+                                      //   left: 5,
+                                      //   right: 5,
+                                      //   bottom: 5,
+                                      //   child: Image.network(
+                                      //     '${AppConstants.mainUrls}imagefile?path=${simbaDesktopController.profilesList![index].frontPhotoUrl}', // ${simbaDesktopController.profilesList![index].
+                                          
+                                      //     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                      //       if (loadingProgress == null) {
+                                      //         return child;
+                                      //       }
+                                      //       return Center(
+                                      //         child: CircularProgressIndicator(
+                                      //           value: loadingProgress.expectedTotalBytes != null
+                                      //               ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                      //               : null,
+                                      //         ),
+                                      //       );
+                                      //     },
+                                      //     errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                      //       return Text('Image not found');
+                                      //     },
+                                      //   ),
+                                      // ),
+                                      
                                     ],
-                                  ),
+                                  )
                               ),
                             );
                           },
-                        )),
+                        )
+                        )
                   ),
                 );
         });

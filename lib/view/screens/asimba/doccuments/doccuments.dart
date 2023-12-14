@@ -193,12 +193,6 @@ class _KYCDocumentCardState extends State<KYCDocumentCard> {
         trailing: ElevatedButton(
           onPressed: () {
             Get.to(DocumentScre());
-            // setState(() {
-              
-            //                                 _showId = 1;
-            //                               });
-            // setState
-            // Handle the button click, e.g., view a larger version of the document.
             print('View Document clicked for ${widget.document['documentType']}');
             print('${_showId}');
           },

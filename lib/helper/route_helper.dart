@@ -157,7 +157,7 @@ class RouteHelper {
     GetPage(name: history, page: () => HistoryScreen()),
     GetPage(name: notification, page: () => const NotificationScreen()),
     // GetPage(name: themeAndLanguage, page: () => ThemeAndLanguage()),
-    GetPage(name: profile, page: () => const ProfileScreen()),
+    // GetPage(name: profile, page: () => const ProfileScreen()),
     GetPage(name: changePinScreen, page: () => const ChangePinScreen()),
     GetPage(name: sendMoney, page: () => TransactionMoneyScreen(phoneNumber: Get.parameters['phone-number'],fromEdit: Get.parameters['from-edit']== 'edit-number')),
     GetPage(name: sendMoneyBalanceInput, page: () => TransactionMoneyBalanceInput(transactionType: Get.parameters['transaction-type'])),

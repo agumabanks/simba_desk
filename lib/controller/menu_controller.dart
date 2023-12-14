@@ -13,7 +13,7 @@ class MenuItemController extends GetxController implements GetxService{
     const HomeScreen(),
     HistoryScreen(),
     const NotificationScreen(),
-    const ProfileScreen()
+    // const ProfileScreen()
   ];
   Widget _currentScreen = const HomeScreen();
   Widget get currentScreen => _currentScreen;
@@ -44,7 +44,7 @@ class MenuItemController extends GetxController implements GetxService{
   }
 
   selectProfilePage() {
-    _currentScreen = const ProfileScreen();
+    // _currentScreen = const ProfileScreen();
     _currentTab = 3;
     update();
   }

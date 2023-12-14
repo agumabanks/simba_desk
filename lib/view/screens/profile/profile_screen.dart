@@ -21,14 +21,14 @@ import 'package:simbadesketop/view/screens/profile/widget/user_info_widget.dart'
 import 'package:simbadesketop/view/screens/requested_money/requested_money_list_screen.dart';
 import 'package:simbadesketop/view/screens/transaction_limit/transaction_limit_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({ Key? key }) : super(key: key);
+class KycProfileScreen extends StatefulWidget {
+  const KycProfileScreen({ Key? key }) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<KycProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<KycProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final splashController = Get.find<SplashController>();
