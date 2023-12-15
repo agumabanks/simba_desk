@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simbadesketop/data/api/api_checker.dart';
 import 'package:simbadesketop/data/model/simbaProfile.dart';
@@ -25,6 +26,19 @@ class SimbaDesktopController extends GetxController implements GetxService {
   // String currentUserId =
   final storage = GetStorage();
   final userId =  GetStorage().read('user_id');
+
+
+  RxBool isImagePicked = false.obs;
+  RxString pickedImagePath = ''.obs;
+  final ImagePicker _imagePicker = ImagePicker();
+
+  Future<void> pickImage() async {
+    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      pickedImagePath.value = image.path;
+      isImagePicked.value = true;
+    }
+  }
 
 
 

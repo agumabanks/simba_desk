@@ -41,7 +41,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
 
-  //  cameras =await availableCameras();
+   cameras =await availableCameras();
 
   Map<String, Map<String, String>> languages = await di.init();
 

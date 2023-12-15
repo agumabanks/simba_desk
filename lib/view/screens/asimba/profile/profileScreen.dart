@@ -6,6 +6,7 @@ import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
 import 'package:simbadesketop/util/app_constants.dart';
 import 'package:simbadesketop/util/dimensions.dart';
 import 'package:simbadesketop/util/styles.dart';
+import 'package:simbadesketop/view/screens/asimba/profile/views/ProfileActions.dart';
 
 
 
@@ -60,124 +61,59 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
                         width: double.infinity,
                     
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            10.width,
+                           
 
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                            
-                                  height: 250,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    image:DecorationImage(image: NetworkImage('${AppConstants.mainUrls}imagefile?path=${simbaController.userProfileData['front_photo_url']}',)),
-                                    color: Color.fromARGB(255, 253, 253, 253),
-                                    borderRadius:
-                                        BorderRadius.circular(12), // Rounded corners
+                              child: Row(
+                                children: [
+                                   10.width,
+                                  Container(
+                                                              
+                                      height: 250,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        image:DecorationImage(image: NetworkImage('${AppConstants.mainUrls}imagefile?path=${simbaController.userProfileData['front_photo_url']}',)),
+                                        color: Color.fromARGB(255, 253, 253, 253),
+                                        borderRadius:
+                                            BorderRadius.circular(12), // Rounded corners
+                                      ),
+                                     
+                                  
+                                     
                                   ),
-                                 
-
-                                 
+                                ],
                               ),
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(5.0),
                               child: Container(
-                            
-                                  height: 250,
-                                  // width: 200,
+                                  height: double.infinity,
+                                  width: 200,
                                   decoration: BoxDecoration(
-                                    // image:DecorationImage(image: NetworkImage(' ${AppConstants.mainUrls}imagefile?path=${simbaController.userProfileData['front_photo_url']}',)),
-                                    // color: Color.fromARGB(255, 253, 253, 253),
-                                    borderRadius:
+                                     borderRadius:
                                         BorderRadius.circular(12), // Rounded corners
                                   ),
                                   child: Column(
+
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      20.height,
-                                      Row(
-                                        // mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text('Names:   ',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: Dimensions.fontSizeDefault,
-                                                color: const Color.fromARGB(255, 79, 78, 78),
-                                              ),
-                                          ),
+                                    50.height,
+                                     
+                                    ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
 
-                                          Text('${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: 16,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                              ),
-                                          ),
+                                    10.height,ProfileData("Job", '${simbaController.userProfileData['current_job_title']} '),
 
-                                          
-                                        ],
-                                      ),
+                                    10.height,ProfileData("email", '${simbaController.userProfileData['email']}   '),
 
-                                      10.height,
-                                       Row(
-                                        
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text('Names:   ',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: Dimensions.fontSizeDefault,
-                                                color: const Color.fromARGB(255, 79, 78, 78),
-                                              ),
-                                          ),
-
-                                          Text('${simbaController.userProfileData['first_name']}  ',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: 16,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                              ),
-                                          ),
-
-                                          
-                                        ],
-                                      ),
-
-                                      10.height,
-
-                                       Row(
-                                        // mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text('Names:   ',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: Dimensions.fontSizeDefault,
-                                                color: const Color.fromARGB(255, 79, 78, 78),
-                                              ),
-                                          ),
-
-                                          Text('${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}',
-                                          textAlign: TextAlign.center,
-                                              maxLines: 2,
-                                              style: rubikMedium.copyWith(
-                                                fontSize: 16,
-                                                color: Color.fromARGB(255, 0, 0, 0),
-                                              ),
-                                          ),
-
-                                          
-                                        ],
-                                      ),
-
-                                      10.height,
+                                      10.height,ProfileData("driving_license", '${simbaController.userProfileData['driving_license']}   '),
+                                       10.height,ProfileData("gender", '${simbaController.userProfileData['gender']}   '),
+                                       10.height,ProfileData("blood type", '${simbaController.userProfileData['blood_type']}   '),
+                                        10.height,ProfileData("email", '${simbaController.userProfileData['email']}   '),
                                       
                                     ],
                                   ),
@@ -186,7 +122,86 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
                                  
                               ),
                             ),
-                            // Text('Email: ${simbaController.userProfileData['frontPhotoUrl']}'),
+                            
+                            
+                             Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                  height: double.infinity,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
+                                  child: Column(
+
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                    50.height,
+                                     
+                                    ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                      
+                                    ],
+                                  ),
+                                  
+
+                                 
+                              ),
+                            ),
+
+                             Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                  height: double.infinity,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
+                                  child: Column(
+
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                    50.height,
+                                     
+                                    ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+
+                                      
+                                    ],
+                                  ),
+                                  
+
+                                 
+                              ),
+                            ),
+                          
+                          const ProfileActions()
+                          
                           ],
                         )),
                     ),
@@ -206,11 +221,16 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                height: 200,width: 200,color: Colors.amber,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 250,width: 200,color: Colors.amber,
+                                ),
                               ),
                               Text('Email: ${simbaController.userProfileData['email']}'),
-                              Text('Email: ${simbaController.userProfileData['front_photo_url']}'),
+                             
+                               10.height,ProfileData("dob", '${simbaController.userProfileData['dob']}   '),
+                              
                             ],
                           ),
                         )),
@@ -244,4 +264,35 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
       );
     
   }
+
+                            Widget ProfileData(String? name, String title){
+                                       return  Padding(
+                                         padding: const EdgeInsets.all(0),
+                                         child: Row(
+                                          // mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text( "$name    ",
+                                            textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                style: rubikMedium.copyWith(
+                                                  fontSize: Dimensions.fontSizeDefault,
+                                                  color: const Color.fromARGB(255, 79, 78, 78),
+                                                ),
+                                            ),
+                                         
+                                            Text(title,
+                                            textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                style: rubikMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(255, 0, 0, 0),
+                                                ),
+                                            ),
+                                         
+                                            
+                                          ],
+                                                                               ),
+                                       );
+ }
 }

@@ -1158,7 +1158,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Personal Information",
+                                      Text("Personal",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1184,7 +1184,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Identification & Legal Status",
+                                      Text("Legal ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1209,7 +1209,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Contact & Emergency",
+                                      Text("Contact",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1234,7 +1234,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Employment & Education",
+                                      Text("Employ't & Edu",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1259,7 +1259,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Medical & Miscellaneous",
+                                      Text("Medical ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1285,7 +1285,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Biomatrics Information",
+                                      Text("Biomatrics ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1651,7 +1651,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Personal Information",
+                                      Text("Personal",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1677,7 +1677,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Identification & Legal Status",
+                                      Text("Legal ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1702,7 +1702,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Contact & Emergency",
+                                      Text("Contact",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1727,7 +1727,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Employment & Education",
+                                      Text("Employ't & Edu",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1752,7 +1752,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Medical & Miscellaneous",
+                                      Text("Medical ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -1778,7 +1778,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                         ),
                                       ).cornerRadiusWithClipRRect(50),
                                       15.height,
-                                      Text("Biomatrics Information",
+                                      Text("Biomatrics ",
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: rubikMedium.copyWith(
@@ -2002,7 +2002,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Personal Information",
+                                        Text("Personal",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2028,7 +2028,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Identification & Legal Status",
+                                        Text("Legal ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2053,7 +2053,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Contact & Emergency",
+                                        Text("Contact",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2078,7 +2078,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Employment & Education",
+                                        Text("Employ't & Edu",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2103,7 +2103,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Medical & Miscellaneous",
+                                        Text("Medical ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2129,7 +2129,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Biomatrics Information",
+                                        Text("Biomatrics ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2364,7 +2364,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Personal Information",
+                                        Text("Personal",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2390,7 +2390,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Identification & Legal Status",
+                                        Text("Legal ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2415,7 +2415,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Contact & Emergency",
+                                        Text("Contact",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2440,7 +2440,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Employment & Education",
+                                        Text("Employ't & Edu",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2465,7 +2465,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Medical & Miscellaneous",
+                                        Text("Medical ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2491,7 +2491,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Biomatrics Information",
+                                        Text("Biomatrics ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2750,7 +2750,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Personal Information",
+                                        Text("Personal",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2776,7 +2776,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Identification & Legal Status",
+                                        Text("Legal ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2801,7 +2801,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Contact & Emergency",
+                                        Text("Contact",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2826,7 +2826,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Employment & Education",
+                                        Text("Employ't & Edu",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2851,7 +2851,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Medical & Miscellaneous",
+                                        Text("Medical ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -2877,7 +2877,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                           ),
                                         ).cornerRadiusWithClipRRect(50),
                                         15.height,
-                                        Text("Biomatrics Information",
+                                        Text("Biomatrics ",
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             style: rubikMedium.copyWith(
@@ -3153,7 +3153,10 @@ _registerStep2(SimbaDesktopController authController) async {
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
     // ignore: deprecated_member_use
-    final pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
+    // final pickedImage = await imagePicker.getImage(source: ImageSource.gallery);
+
+    final pickedImage = await imagePicker.getImage(source: ImageSource.camera);
+
 
     if (pickedImage != null) {
       setState(() {
@@ -3244,7 +3247,8 @@ _registerStep2(SimbaDesktopController authController) async {
                             padding: const EdgeInsets.all(28.0),
                             child:  Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Column(
+                            child: 
+                            Column(
                               children: [
                               Center(
                             child: Column(
