@@ -23,6 +23,21 @@ import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
 import 'package:get_storage/get_storage.dart';
 
+import 'dart:async';
+import 'dart:io' show Platform, sleep;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
+import 'package:logging/logging.dart';
+import 'package:ndef/ndef.dart' as ndef;
+import 'package:ndef/utilities.dart';
+
+// import 'ndef_record/raw_record_setting.dart';
+// import 'ndef_record/text_record_setting.dart';
+// import 'ndef_record/uri_record_setting.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
  late List<CameraDescription> cameras;
 
@@ -44,7 +59,10 @@ Future<void> main() async {
    cameras =await availableCameras();
 
   Map<String, Map<String, String>> languages = await di.init();
-
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });  
   int? orderID;
    SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,

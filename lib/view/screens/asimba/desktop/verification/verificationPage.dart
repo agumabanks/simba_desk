@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:simbadesketop/util/dimensions.dart';
+import 'package:simbadesketop/util/styles.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/verifyWithChip.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/verifyWithFace.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/verifyWithNfc.dart';
 import 'package:simbadesketop/view/screens/auth/selfie_capture/camera_screen.dart';
 
 class VerrificationPage extends StatefulWidget {
@@ -17,111 +22,119 @@ class _VerrificationPageState extends State<VerrificationPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CameraScreen(fromEditProfile: true,)); //VerificationScreen(),);
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     AnimatedContainer(
-        //       width: isCapturing ? 250.0 : 200.0,
-        //       height: isCapturing ? 250.0 : 200.0,
-        //       duration: Duration(milliseconds: 500),
-        //       decoration: BoxDecoration(
-        //         border: Border.all(
-        //           color: isCapturing ? Colors.green : Colors.black,
-        //           width: isCapturing ? 4.0 : 2.0,
-        //         ),
-        //         borderRadius: isCapturing ? BorderRadius.circular(125.0) : BorderRadius.circular(0.0),
-        //       ),
-        //       child: Center(
-        //         child: Text(
-        //           isCapturing ? 'Capturing...' : 'Capture Your Face',
-        //           style: TextStyle(
-        //             fontSize: isCapturing ? 18.0 : 16.0,
-        //             color: isCapturing ? Colors.white : Colors.black,
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     SizedBox(height: 20.0),
-            // TextButton(
-            //   onPressed: () {
-            //     setState(() {
-            //       isCapturing = true;
-            //       // Add logic to capture the face here
-            //     });
-            //   },
-            //   child: Text('Capture Face'),
-        //     ),
-        //   ],
-        // ),
-      // );
+      child: VerificationScreen(),); //CameraScreen(fromEditProfile: true,)); 
+        
   }
 
   Widget VerificationScreen(){
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: Get.height / 1.6,
-            width: Get.width / 2,
-            color: redColor,
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 50,
-              width: Get.width / 2,
-              color: redColor,
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // SizedBox(
-                  //   width: 10,
-                  //   child:  Container(
-                  //   height: double.infinity,
-                  //   width: 3,
-                  //   color: white,
-                  // ),
-                  // ),
-
-
-                  SizedBox(
-                    width: 10,
-                    child:  Container(
-                    height: double.infinity,
-                    width: 3,
-                    color: white,
-                  ),
-                  ),
-
-                  SizedBox(
-                    width: 10,
-                    child:  Container(
-                    height: double.infinity,
-                    width: 3,
-                    color: white,
-                  ),
-                  ),
-
-
-                  TextButton(
-              onPressed: () {
-                setState(() {
-                  isCapturing = true;
-                  // Add logic to capture the face here
-                });
-              },
-              child: Text('Capture Face'),)
-                 
-                ],
-              ),
+      child: Center(
+        child: Row(
+          children: [
+            
+            
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 350,
+                width: Get.width / 4.36 ,
+                decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 5, 161, 125),
+                              borderRadius:
+                                  BorderRadius.circular(12), // Rounded corners
+                            ),
+                child: Column(
+                  children: [
+                     80.height,
+                    Icon(Icons.face_sharp, size: 135, color: white,),
+                    10.height,
+                    Text("Face",  style: rubikMedium.copyWith(
+                                                      fontSize: Dimensions
+                                                          .fontSizeOverOverLarge,
+                                                      color: const Color.fromARGB(
+                                                          255, 254, 254, 254),
+                                                    ),)
+                      
+                  ],
+                ),
+              ).onTap((){
+                Get.to(CameraScreen(fromEditProfile: true,));
+              }),
             ),
-          )
-        ],
-      ),
-    );
+
+
+
+    
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 350,
+                width: Get.width / 4.4 ,
+                decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 5, 161, 125),
+                              borderRadius:
+                                  BorderRadius.circular(12), // Rounded corners
+                            ),
+                child: Center(
+                  child: Column(
+                    children: [
+                     80.height,
+                      Icon(Icons.card_travel_rounded, size: 135, color: white,),
+                      10.height,
+                      Text("Chip",  style: rubikMedium.copyWith(
+                                                        fontSize: Dimensions
+                                                            .fontSizeOverOverLarge,
+                                                        color: const Color.fromARGB(
+                                                            255, 254, 254, 254),
+                                                      ),)
+                        
+                    ],
+                  ),
+                ),
+              ).onTap((){
+                Get.to(verifyWithChip());
+              }),
+            ),
+
+
+
+    
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 350,
+                width:Get.width / 4.5 ,
+                decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 5, 161, 125),
+                              borderRadius:
+                                  BorderRadius.circular(12), // Rounded corners
+                            ),
+                child: Column(
+                  children: [
+                     80.height,
+                    Icon(Icons.nfc, size: 135, color: white,),
+                    10.height,
+                    Text("NFC",  style: rubikMedium.copyWith(
+                                                      fontSize: Dimensions
+                                                          .fontSizeOverOverLarge,
+                                                      color: const Color.fromARGB(
+                                                          255, 254, 254, 254),
+                                                    ),)
+                      
+                  ],
+                ),
+              ).onTap((){
+                Get.to(verifyWithNfc());
+              }),
+            ),
+
+
+
+
+
+          ],
+        ),
+      ) );
   }
 
 }

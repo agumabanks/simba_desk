@@ -1370,7 +1370,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
-                                        : 0),
+                                        : Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
                                     titleText: 'Phone'.tr,
@@ -1390,8 +1390,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
 
                               // _dob
                               Row(children: [
-                                ResponsiveHelper.isDesktop(context)
-                                    ? Expanded(
+                               Expanded(
                                         child: CustomTextField(
                                           titleText: 'Date of birth'.tr,
                                           hintText: '12/12/2023'.tr,
@@ -1403,12 +1402,12 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                           showTitle: ResponsiveHelper.isDesktop(
                                               context),
                                         ),
-                                      )
-                                    : const SizedBox(),
+                                      ),
+                                    // : const SizedBox(),
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
-                                        : 0),
+                                        : Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
                                     titleText: 'Place of birth'.tr,
@@ -1427,8 +1426,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                   height: Dimensions.paddingSizeLarge),
 
                               Row(children: [
-                                ResponsiveHelper.isDesktop(context)
-                                    ? Expanded(
+                                 Expanded(
                                         child: CustomTextField(
                                           titleText: 'Nationality'.tr,
                                           hintText: 'DRC'.tr,
@@ -1441,11 +1439,11 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                               context),
                                         ),
                                       )
-                                    : const SizedBox(),
+                                    ,
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
-                                        : 0),
+                                        : Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
                                     titleText: 'Marital Status'.tr,
@@ -1464,8 +1462,7 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                   height: Dimensions.paddingSizeLarge),
 
                               Row(children: [
-                                ResponsiveHelper.isDesktop(context)
-                                    ? Expanded(
+                                 Expanded(
                                         child: CustomTextField(
                                           titleText: 'Gender'.tr,
                                           hintText: 'Male'.tr,
@@ -1477,12 +1474,12 @@ class _SimbaMobScreenState extends State<SimbaMobScreen> {
                                           showTitle: ResponsiveHelper.isDesktop(
                                               context),
                                         ),
-                                      )
-                                    : const SizedBox(),
+                                      ),
+                                    // : const SizedBox(),
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
-                                        : 0),
+                                        : Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
                                     titleText: 'Spouse name'.tr,
@@ -1848,8 +1845,7 @@ _registerStep2(SimbaDesktopController authController) async {
   
   
                               Row(children: [
-                                ResponsiveHelper.isDesktop(context)
-                                    ? Expanded(
+                                 Expanded(
                                         child: CustomTextField(
                                           titleText: 'driving license'.tr,
                                           hintText: ' '.tr,
@@ -1862,12 +1858,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                           showTitle: ResponsiveHelper.isDesktop(
                                               context),
                                         ),
-                                      )
-                                    : const SizedBox(),
+                                      ),
                                 SizedBox(
                                     width: ResponsiveHelper.isDesktop(context)
                                         ? Dimensions.paddingSizeSmall
-                                        : 0),
+                                        : Dimensions.paddingSizeSmall),
                                 Expanded(
                                   child: CustomTextField(
                                     titleText: 'Military Service Record'.tr,
@@ -2199,8 +2194,7 @@ _registerStep2(SimbaDesktopController authController) async {
 
              
                                 Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
+                                   Expanded(
                                           child: CustomTextField(
                                             titleText: '_emergency_contact_relationship'.tr,
                                             hintText: '_emergency_contact_relationship'.tr,
@@ -2213,11 +2207,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                                 context),
                                           ),
                                         )
-                                      : const SizedBox(),
+                                     ,
                                   SizedBox(
                                       width: ResponsiveHelper.isDesktop(context)
                                           ? Dimensions.paddingSizeSmall
-                                          : 0),
+                                          : Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
                                       titleText: 'emergency Contact Phone'.tr,
@@ -2558,9 +2552,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                 const SizedBox(
                                     height: Dimensions.paddingSizeLarge),
 
-                                Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
+                                Row(children: [ Expanded(
                                           child: CustomTextField(
                                             titleText: 'institutions_attended'.tr,
                                             hintText: 'institutions_attended'.tr,
@@ -2574,11 +2566,11 @@ _registerStep2(SimbaDesktopController authController) async {
                                                 context),
                                           ),
                                         )
-                                      : const SizedBox(),
+                                     ,
                                   SizedBox(
                                       width: ResponsiveHelper.isDesktop(context)
                                           ? Dimensions.paddingSizeSmall
-                                          : 0),
+                                          : Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
                                       titleText: '_graduation_yearsFocus'.tr,
@@ -2945,8 +2937,7 @@ _registerStep2(SimbaDesktopController authController) async {
                                     height: Dimensions.paddingSizeLarge),
 
                                 Row(children: [
-                                  ResponsiveHelper.isDesktop(context)
-                                      ? Expanded(
+                                  Expanded(
                                           child: CustomTextField(
                                             titleText: 'languages spoken'.tr,
                                             hintText: 'languages spoken'.tr,
@@ -2960,12 +2951,12 @@ _registerStep2(SimbaDesktopController authController) async {
                                                 context),
                                           ),
                                         )
-                                      : const SizedBox(),
+                                     ,
                                   
                                   SizedBox(
                                       width: ResponsiveHelper.isDesktop(context)
                                           ? Dimensions.paddingSizeSmall
-                                          : 0),
+                                          : Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: CustomTextField(
                                       titleText: 'blood_type'.tr,

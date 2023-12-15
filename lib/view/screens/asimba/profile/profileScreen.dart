@@ -60,149 +60,146 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
                           ),
                         width: double.infinity,
                     
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                           
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                   10.width,
-                                  Container(
-                                                              
-                                      height: 250,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        image:DecorationImage(image: NetworkImage('${AppConstants.mainUrls}imagefile?path=${simbaController.userProfileData['front_photo_url']}',)),
-                                        color: Color.fromARGB(255, 253, 253, 253),
-                                        borderRadius:
-                                            BorderRadius.circular(12), // Rounded corners
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                             
+                          
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                     10.width,
+                                    Container(
+                                                                
+                                        height: 250,
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          image:DecorationImage(image: NetworkImage('${AppConstants.mainUrls}imagefile?path=${simbaController.userProfileData['front_photo_url']}',)),
+                                          color: Color.fromARGB(255, 253, 253, 253),
+                                          borderRadius:
+                                              BorderRadius.circular(12), // Rounded corners
+                                        ),
+                                       
+                                    
+                                       
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                    height: double.infinity,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                       borderRadius:
+                                          BorderRadius.circular(12), // Rounded corners
+                                    ),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                                                
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                        50.height,
+                                         
+                                        ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+                                                                
+                                        10.height,ProfileData("Job:", '${simbaController.userProfileData['current_job_title']} '),
+                                                                
+                                        10.height,ProfileData("email:", '${simbaController.userProfileData['email']}   '),
+                                                                
+                                          10.height,ProfileData("driving_license:", '${simbaController.userProfileData['driving_license']}   '),
+                                           10.height,ProfileData("gender:", '${simbaController.userProfileData['gender']}   '),
+                                           10.height,ProfileData("blood type:", '${simbaController.userProfileData['blood_type']}   '),
+                                            10.height,ProfileData("criminal record:", '${simbaController.userProfileData['criminal_record']}   '),
+                                          
+                                        ],
                                       ),
-                                     
-                                  
-                                     
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                  height: double.infinity,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                     borderRadius:
-                                        BorderRadius.circular(12), // Rounded corners
-                                  ),
-                                  child: Column(
-
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                    50.height,
-                                     
-                                    ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Job", '${simbaController.userProfileData['current_job_title']} '),
-
-                                    10.height,ProfileData("email", '${simbaController.userProfileData['email']}   '),
-
-                                      10.height,ProfileData("driving_license", '${simbaController.userProfileData['driving_license']}   '),
-                                       10.height,ProfileData("gender", '${simbaController.userProfileData['gender']}   '),
-                                       10.height,ProfileData("blood type", '${simbaController.userProfileData['blood_type']}   '),
-                                        10.height,ProfileData("email", '${simbaController.userProfileData['email']}   '),
-                                      
-                                    ],
-                                  ),
-                                  
-
-                                 
-                              ),
-                            ),
-                            
-                            
-                             Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                  height: double.infinity,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                     borderRadius:
-                                        BorderRadius.circular(12), // Rounded corners
-                                  ),
-                                  child: Column(
-
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                    50.height,
-                                     
-                                    ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                      
-                                    ],
-                                  ),
-                                  
-
-                                 
-                              ),
-                            ),
-
-                             Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                  height: double.infinity,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                     borderRadius:
-                                        BorderRadius.circular(12), // Rounded corners
-                                  ),
-                                  child: Column(
-
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                    50.height,
-                                     
-                                    ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                    10.height,ProfileData("Name", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
-
-                                      
-                                    ],
-                                  ),
-                                  
-
-                                 
-                              ),
-                            ),
+                                    ),
+                                    
                           
-                          const ProfileActions()
+                                   
+                                ),
+                              ),
+                              
+                              
+                               Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                    height: double.infinity,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                       borderRadius:
+                                          BorderRadius.circular(12), // Rounded corners
+                                    ),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                                                
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                        50.height,
+                                         
+                                         ProfileData("emergency_contact_name", '${simbaController.userProfileData['emergency_contact_name']}'),10.height,
+                                         ProfileData("mothers name", '${simbaController.userProfileData['mothers_name']}'),10.height,
+                                         ProfileData("fathers name", '${simbaController.userProfileData['fathers_name']}'),10.height,
+                                         ProfileData("Next Of Kin Tel", '${simbaController.userProfileData['emergency_contact_phone']}'),10.height,
+                                         ProfileData("Next Of Kin Relation", '${simbaController.userProfileData['emergency_contact_relationship']}'),10.height,
+                                         ProfileData("employment Status", '${simbaController.userProfileData['employment_status']}'),10.height,
+                                         ProfileData("marital_status", '${simbaController.userProfileData['marital_status']}'),10.height,
+                                        
+                                          
+                                        ],
+                                      ),
+                                    ),
+                                    
                           
-                          ],
+                                   
+                                ),
+                              ),
+                          
+                               Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                    height: double.infinity,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                       borderRadius:
+                                          BorderRadius.circular(12), // Rounded corners
+                                    ),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                                                
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                        50.height,
+                                         
+                                         ProfileData("spouse name", '${simbaController.userProfileData['emergency_contact_name']}'),10.height,
+                                         ProfileData("residential address", '${simbaController.userProfileData['residential_address']}'),10.height,
+                                         ProfileData("place of birth", '${simbaController.userProfileData['place_of_birth']}'),10.height,
+                                         ProfileData("Tel", '${simbaController.userProfileData['phone_number']}'),10.height,
+                                         ProfileData("passport number", '${simbaController.userProfileData['passport_number']}'),10.height,
+                                         ProfileData("nationality", '${simbaController.userProfileData['nationality']}'),10.height,
+                                         ProfileData("nationality", '${simbaController.userProfileData['nationality']}'),10.height,
+                                        
+                                          
+                                        ],
+                                      ),
+                                    ),
+                                    
+                          
+                                   
+                                ),
+                              ),
+                            
+                            const ProfileActions()
+                            
+                            ],
+                          ),
                         )),
                     ),
 
@@ -224,12 +221,121 @@ class _KycProfileScreen2State extends State<KycProfileScreen2> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: 250,width: 200,color: Colors.amber,
+                                  height: 250,width: 200,
+                                   decoration: BoxDecoration(
+                                    color: Colors.amber,
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
                                 ),
                               ),
-                              Text('Email: ${simbaController.userProfileData['email']}'),
+                              // Text('registration_date: ${simbaController.userProfileData['registration_date']}'),
                              
-                               10.height,ProfileData("dob", '${simbaController.userProfileData['dob']}   '),
+                             Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                  height: double.infinity,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                    
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      50.height,
+                                       
+                                      ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+                                    
+                                      10.height,ProfileData("Job:", '${simbaController.userProfileData['current_job_title']} '),
+                                    
+                                      10.height,ProfileData("email:", '${simbaController.userProfileData['email']}   '),
+                                    
+                                        10.height,ProfileData("driving_license:", '${simbaController.userProfileData['driving_license']}   '),
+                                         10.height,ProfileData("gender:", '${simbaController.userProfileData['gender']}   '),
+                                         10.height,ProfileData("blood type:", '${simbaController.userProfileData['blood_type']}   '),
+                                          10.height,ProfileData("criminal record:", '${simbaController.userProfileData['criminal_record']}   '),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                  
+
+                                 
+                              ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                  height: double.infinity,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                    
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      50.height,
+                                       
+                                      ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+                                    
+                                      10.height,ProfileData("Job:", '${simbaController.userProfileData['current_job_title']} '),
+                                    
+                                      10.height,ProfileData("email:", '${simbaController.userProfileData['email']}   '),
+                                    
+                                        10.height,ProfileData("driving_license:", '${simbaController.userProfileData['driving_license']}   '),
+                                         10.height,ProfileData("gender:", '${simbaController.userProfileData['gender']}   '),
+                                         10.height,ProfileData("blood type:", '${simbaController.userProfileData['blood_type']}   '),
+                                          10.height,ProfileData("criminal record:", '${simbaController.userProfileData['criminal_record']}   '),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                  
+
+                                 
+                              ),
+                            ),Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                  height: double.infinity,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                     borderRadius:
+                                        BorderRadius.circular(12), // Rounded corners
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                    
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                      50.height,
+                                       
+                                      ProfileData("", '${simbaController.userProfileData['first_name']}   ${simbaController.userProfileData['last_name']}'),
+                                    
+                                      10.height,ProfileData("Job:", '${simbaController.userProfileData['current_job_title']} '),
+                                    
+                                      10.height,ProfileData("email:", '${simbaController.userProfileData['email']}   '),
+                                    
+                                        10.height,ProfileData("driving_license:", '${simbaController.userProfileData['driving_license']}   '),
+                                         10.height,ProfileData("gender:", '${simbaController.userProfileData['gender']}   '),
+                                        10.height,ProfileData("registed", '${simbaController.userProfileData['registration_date']}   '),
+                                                                   10.height,ProfileData("dob", '${simbaController.userProfileData['dob']}   '),
+                                                                  
+                                      ],
+                                    ),
+                                  ),
+                                  
+
+                                 
+                              ),
+                            ),
                               
                             ],
                           ),

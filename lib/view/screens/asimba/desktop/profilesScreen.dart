@@ -60,13 +60,7 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                               child: Container(
 
 
-                                //                 height: 250,
-                                //                 width: 200,
-                                //  decoration: BoxDecoration(
-                                //   color: const Color.fromARGB(255, 213, 213, 213),
-                                //   borderRadius:
-                                //       BorderRadius.circular(12), // Rounded corners
-                                // ),
+                                
                                 child: Stack(
                                     children: [
                                       
@@ -112,9 +106,7 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                                                         )
                                                       ).onTap((){
                          
-                                                          simbaDesktopController.fetchUserData("${simbaDesktopController.profilesList![index].userId}");
-                                                          print("${simbaDesktopController.profilesList![index].userId}");
-                                                          
+                                                         
                                                         }),
                                                     ),
 
@@ -122,15 +114,20 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                                                         top:10,
                                                         right:10,
                                                         child: InkWell(
-                                                          onTap :() => simbaDesktopController.deletProfile('${simbaDesktopController.profilesList![index].userId}'), //kycVerifyController.removeImage(index),
+                                                          onTap :(){
+                                                             simbaDesktopController.fetchUserData("${simbaDesktopController.profilesList![index].userId}");
+                                                          print("${simbaDesktopController.profilesList![index].userId}");
+                                                          
+                                                          },
+                                                          //  => simbaDesktopController.deletProfile('${simbaDesktopController.profilesList![index].userId}'), //kycVerifyController.removeImage(index),
                                                           child: Container(
                                                               decoration: BoxDecoration(
-                                                                  color: Colors.red.withOpacity(0.2),
+                                                                  color: Colors.green.withOpacity(0.3),
                                                                   borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))
                                                               ),
                                                               child: const Padding(
                                                                 padding: EdgeInsets.all(5.0),
-                                                                child: Icon(Icons.delete_outline,color: Colors.red,size: 16,),
+                                                                child: Icon(Icons.remove_red_eye_outlined,color: Colors.green,size: 16,),
                                                               )),
                                                         ),
                                                       ),

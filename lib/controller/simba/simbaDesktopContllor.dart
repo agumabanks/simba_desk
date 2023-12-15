@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:simbadesketop/util/app_constants.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/profilesScreen.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/simbaMobile.dart';
 import 'package:simbadesketop/view/screens/asimba/profile/profileScreen.dart';
 
@@ -53,6 +54,8 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 
   void getProfilesList() async {
+
+    _profilesList = <Profiles>[];
     
     const String urlMain = "${AppConstants.mainUrls}getallusers";
     final response =
@@ -104,6 +107,12 @@ final List<String> congoProvinces = [
 static const List<String> bloodTypes = [
   'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
 ];
+
+static const List<String> maritalStatus = [
+ 'Yes', 'No'
+];
+
+
  // API endpoint URL
   final String apiUrl = "http://159.89.80.33:8080/getuser?user_id=";
 
@@ -143,7 +152,8 @@ static const List<String> bloodTypes = [
 
       if (response.statusCode == 200){
         getProfilesList();
-        Get.to(SimbaMobScreen());
+        // Get.to(ProfilesScreen());
+        Get.to(() => ProfilesScreen());
       }
     } catch (e){
       print('error deleting user $e');
