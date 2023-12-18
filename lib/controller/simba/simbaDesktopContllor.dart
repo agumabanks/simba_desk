@@ -28,6 +28,20 @@ class SimbaDesktopController extends GetxController implements GetxService {
   final storage = GetStorage();
   final userId =  GetStorage().read('user_id');
 
+  final userNfcId = '';
+  final userNfcUserId = '';
+
+
+
+
+
+  //  final parsedJson = json.decode(response.body);
+  //  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  await prefs.setString('user_id', parsedJson['user_id']);  
+  //  String userId2 = prefs.getString('user_id') ?? '';
+  //  print(userId2);
+
+
 
   RxBool isImagePicked = false.obs;
   RxString pickedImagePath = ''.obs;
@@ -41,6 +55,14 @@ class SimbaDesktopController extends GetxController implements GetxService {
     }
   }
 
+  Future<void> CurrentUserId(profileId) async {
+     
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString('CurrentProfileId', profileId);  
+                                                             
+                                                             
+  }
+
 
 
 //  List<Profiles>? _profilesList;
@@ -49,8 +71,6 @@ class SimbaDesktopController extends GetxController implements GetxService {
   List<Profiles>? get 
   
   profilesList => _profilesList;
-
-
 
 
   void getProfilesList() async {
@@ -120,6 +140,7 @@ static const List<String> maritalStatus = [
 
   void resetUserDetails(){
     userProfileData = {};
+    String _currentProfileId = '';
     update();
   }
 
@@ -162,9 +183,22 @@ static const List<String> maritalStatus = [
   }
 
 
-  void getUserProfile(){
+  String _currentProfileId = '';
+  String get currentProfileId => _currentProfileId;
 
+  void getUserProfile(String value){
+    _currentProfileId = value;
+    update();
   }
+
+ String _currentTagId = '';
+ String get currentTagId => _currentTagId;
+
+  void getTagId(String value){
+    _currentTagId = value;
+    update();
+  }
+
 // registration
 // Future<ResponseModel> registration(SignUpBody signUpBody) async {
 //     _isLoading = true;

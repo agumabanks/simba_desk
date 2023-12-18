@@ -134,7 +134,7 @@ class ProfileActions extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Center(child: Text("Add NFC ")),
                         ),).onTap((){
-                          // print("view id $ {simbaController.userProfileData['user_id']}");
+                          
                           Get.to(verifyWithNfc());
                         },)
                     ),

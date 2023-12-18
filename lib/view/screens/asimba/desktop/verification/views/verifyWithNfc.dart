@@ -8,14 +8,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
+import 'package:get/get.dart';
 import 'package:logging/logging.dart';
 import 'package:ndef/ndef.dart' as ndef;
 import 'package:ndef/utilities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
 
 import '../ndef_record/text_record_setting.dart';
 import '../ndef_record/raw_record_setting.dart';
 import '../ndef_record/text_record_setting.dart';
 import '../ndef_record/uri_record_setting.dart';
+
+
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 
 
@@ -48,7 +56,7 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
     else
       _platformVersion = 'Web';
     initPlatformState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _records = [];
   }
 
@@ -72,6 +80,35 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
     });
   }
 
+final SimbaDesktopController simbaController = Get.put(SimbaDesktopController(simbaRepo: Get.find(), sharedPreferences: Get.find()));
+
+   Future<void> addTagData(String tagId, String userId) async {
+  String apiUrl = "http://159.89.80.33:8080/addtag"; //http://159.89.80.33:8080/getallusers
+  
+  try {
+      
+      //  print(userId2);
+      String CurrentProfileId = simbaController.currentProfileId;
+      String TagId = simbaController.currentTagId;
+      var response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"tag_id": TagId, "user_id": CurrentProfileId}),
+    );
+
+    if (response.statusCode == 200) {
+      print("Tag data added successfully");
+        // final parsedJson = json.decode(response.body);
+     
+    } else {
+      print("Error adding tag data: ${response.body}");
+    }
+  } catch (e) {
+    print("Error sending request: $e");
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,16 +123,18 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
               ],
               controller: _tabController,
             )),
-        body: new TabBarView(controller: _tabController, children: <Widget>[
+        body: TabBarView(controller: _tabController, children: <Widget>[
           Scrollbar(
               child: SingleChildScrollView(
                   child: Center(
-                      child: Column(
+                      child: Column( 
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                 const SizedBox(height: 20),
                 Text('NFC: $_availability'), // Running on: $_platformVersion\n
                 const SizedBox(height: 10),
+
+                ElevatedButton(onPressed: (){ addTagData('f9c5f7bd-9b2c-11ee-89d8-b6322f66a06e','f9c5f7bd-9b2c-11ee-89d8-b6322f66a06e');}, child: const Text("data")),
                 
                 ElevatedButton(
                   onPressed: () async {
@@ -136,7 +175,7 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
                           _result = ndefString;
                         });
 
-                         print("${_tag!.id}");
+                         
                       } else if (tag.type == NFCTagType.webusb) {
                         var r = await FlutterNfcKit.transceive(
                             "00A4040006D27600012401");
@@ -153,8 +192,13 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
                         print("ID: ${_tag!.id}\nStandard: ${_tag!.standard}\nType: ${_tag!.type}\nATQA: ${_tag!.atqa}\nSAK: ${_tag!.sak}\nHistorical Bytes: ${_tag!.historicalBytes}\nProtocol Info: ${_tag!.protocolInfo}\nApplication Data: ${_tag!.applicationData}\nHigher Layer Response: ${_tag!.hiLayerResponse}\nManufacturer: ${_tag!.manufacturer}\nSystem Code: ${_tag!.systemCode}\nDSF ID: ${_tag!.dsfId}\nNDEF Available: ${_tag!.ndefAvailable}\nNDEF Type: ${_tag!.ndefType}\nNDEF Writable: ${_tag!.ndefWritable}\nNDEF Can Make Read Only: ${_tag!.ndefCanMakeReadOnly}\nNDEF Capacity: ${_tag!.ndefCapacity}\nMifare Info:${_tag!.mifareInfo} Transceive Result:\n$_result\n\nBlock Message:\n$_mifareResult");
                       }
 
+                      // String CurrentProfileId = simbaController.currentProfileId;
+                       simbaController.getTagId(_tag!.id);
+                                                              
+                      
+
                     // Pretend that we are working
-                    if (!kIsWeb) sleep(new Duration(seconds: 1));
+                    if (!kIsWeb) sleep(const Duration(seconds: 1));
                     await FlutterNfcKit.finish(iosAlertMessage: "Finished!");
                   },
                   child: const Text('Start polling'),
@@ -165,6 +209,7 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
                     child: _tag != null
                         ? Text( 'ID: ${_tag!.id}\n')
                         : const Text('No tag polled yet.')
+                        
                         ),
               ])))),
           Center(
@@ -321,3 +366,5 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
     );
   }
 }
+
+

@@ -114,9 +114,10 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
                                                         top:10,
                                                         right:10,
                                                         child: InkWell(
-                                                          onTap :(){
-                                                             simbaDesktopController.fetchUserData("${simbaDesktopController.profilesList![index].userId}");
-                                                          print("${simbaDesktopController.profilesList![index].userId}");
+                                                          onTap :() async {
+                                                            simbaDesktopController.getUserProfile("${simbaDesktopController.profilesList![index].userId}");
+                                                            simbaDesktopController.fetchUserData("${simbaDesktopController.profilesList![index].userId}");
+                                                              
                                                           
                                                           },
                                                           //  => simbaDesktopController.deletProfile('${simbaDesktopController.profilesList![index].userId}'), //kycVerifyController.removeImage(index),
