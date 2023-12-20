@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key, required this.languages, required this.orderID}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return GetBuilder<ThemeController>(builder: (themeController) {
       return GetBuilder<LocalizationController>(builder: (localizeController) {
         return GetMaterialApp(

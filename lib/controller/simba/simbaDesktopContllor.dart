@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'package:simbadesketop/util/app_constants.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/profilesScreen.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/simbaMobile.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/nfcUserDataScreen.dart';
 import 'package:simbadesketop/view/screens/asimba/profile/profileScreen.dart';
 
 
@@ -33,19 +34,96 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
 
 
-
-
-  //  final parsedJson = json.decode(response.body);
-  //  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //  await prefs.setString('user_id', parsedJson['user_id']);  
-  //  String userId2 = prefs.getString('user_id') ?? '';
-  //  print(userId2);
-
-
-
   RxBool isImagePicked = false.obs;
   RxString pickedImagePath = ''.obs;
   final ImagePicker _imagePicker = ImagePicker();
+
+  Map<String, dynamic> userNfcProfileData = {};
+
+
+
+
+  final tagId = ''.obs;
+  final profileIdNfc = ''.obs;
+
+  void resetUserNfcDetails(){
+    userNfcProfileData = {};
+
+    final tagId = ''.obs;
+    final profileIdNfc = ''.obs;
+    update();
+  }
+
+
+
+   // Function to set the tag ID
+  void setTagId(String newTagId) {
+    tagId.value = newTagId;
+  }
+
+Future <void> getNfcProfileData() async {
+  String apiUrl  = "http://159.89.80.33:8080/get-profile/";
+  
+  try {
+    var response = await http.get(Uri.parse('$apiUrl$tagId')) ;
+
+
+   if (response.statusCode == 200) {
+        profileIdNfc.value = response.body;
+        print("Profile ID retrieved successfully: $profileIdNfc");
+      
+      } else {
+        print("Error retrieving profile ID: ${response.body}");
+      }
+    } catch (e) {
+      print("Error sending request: $e");
+    }
+
+
+    // now call the profile data with the new profile id
+
+    try {
+      
+      // profile url
+      if (profileIdNfc.value != Null){
+          fetchUserNfcData(profileIdNfc.value);
+      }
+    } catch (e) {
+      print(e); 
+    }
+}
+
+
+
+
+ 
+
+  bool hasNfcData = false;
+
+  Future<void> fetchUserNfcData(String profileId) async {
+    final String apiUserUrl = "http://159.89.80.33:8080/getuser?user_id=";
+
+
+    try {
+      final response = await http.get(Uri.parse('$apiUserUrl$profileId'));
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        userNfcProfileData = json.decode(response.body);
+        hasNfcData = true;
+
+        Get.to(nfcUserDataScreen(),);
+        print("user userNfcProfileData: ${userNfcProfileData}");
+       
+      } else {
+        print('Failed to load user data. Status code: ${response.statusCode}');
+      }
+
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
+
+
 
   Future<void> pickImage() async {
     final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);

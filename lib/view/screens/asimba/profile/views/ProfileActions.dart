@@ -5,6 +5,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
 import 'package:simbadesketop/helper/route_helper.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/profilesScreen.dart';
+import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/addNfcData.dart';
 import 'package:simbadesketop/view/screens/asimba/desktop/verification/views/verifyWithNfc.dart';
 import 'package:simbadesketop/view/screens/asimba/doccuments/docsPage.dart';
 import 'package:simbadesketop/view/screens/asimba/profile/generateIdCard.dart';
@@ -75,7 +76,7 @@ class ProfileActions extends StatelessWidget {
                         ),
                         child:  const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Center(child: Text("Edit ")),
+                          child: Center(child: Text("Edit Data")),
                         ),).onTap((){
                           // print("view id $ {simbaController.userProfileData['user_id']}");
                         },)
@@ -113,7 +114,7 @@ class ProfileActions extends StatelessWidget {
                         ),
                         child:  const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Center(child: Text("Approve")),
+                          child: Center(child: Text("Add Finger Print")),
                         ),).onTap((){
                           // print("view id $ {simbaController.userProfileData['user_id']}");
                         },)
@@ -135,7 +136,7 @@ class ProfileActions extends StatelessWidget {
                           child: Center(child: Text("Add NFC ")),
                         ),).onTap((){
                           
-                          Get.to(verifyWithNfc());
+                          Get.to(AddNfcData());
                         },)
                     ),
                 
@@ -152,7 +153,7 @@ class ProfileActions extends StatelessWidget {
                         ),
                         child:  const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Center(child: Text("Delete ")),
+                          child: Center(child: Text("Delete Profile")),
                         ),).onTap((){
                           // print("view id $ {simbaController.userProfileData['user_id']}"); ${simbaController.userProfileData['first_name']}
                            simbaController.deletProfile('${simbaController.userProfileData['user_id']}');

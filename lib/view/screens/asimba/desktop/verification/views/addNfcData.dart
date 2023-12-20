@@ -16,23 +16,25 @@ import 'package:ndef/utilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simbadesketop/controller/simba/simbaDesktopContllor.dart';
 
+import '../ndef_record/text_record_setting.dart';
+import '../ndef_record/raw_record_setting.dart';
+import '../ndef_record/text_record_setting.dart';
+import '../ndef_record/uri_record_setting.dart';
 
 
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:simbadesketop/util/dimensions.dart';
-import 'package:simbadesketop/util/styles.dart';
 
 
 
 
-class verifyWithNfc extends StatefulWidget {
+class AddNfcData extends StatefulWidget {
   @override
-  _verifyWithNfcState createState() => _verifyWithNfcState();
+  _AddNfcDataState createState() => _AddNfcDataState();
 }
 
-class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProviderStateMixin {
+class _AddNfcDataState extends State<AddNfcData> with SingleTickerProviderStateMixin {
   String _platformVersion = '';
   NFCAvailability _availability = NFCAvailability.not_supported;
   NFCTag? _tag;
@@ -82,12 +84,10 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
 final SimbaDesktopController simbaController = Get.put(SimbaDesktopController(simbaRepo: Get.find(), sharedPreferences: Get.find()));
 
   
-  Future<void> addTagData(String tagId, String userId) async {
-  String apiUrl =   "http://159.89.80.33:8080/addtag"; //http://159.89.80.33:8080/getallusers
+  Future<void> addTagData() async {
+  String apiUrl =   "http://159.89.80.33:8080/addtag"; 
   
   try {
-      
-      //  print(userId2);
       String CurrentProfileId = simbaController.currentProfileId;
       String TagId = simbaController.currentTagId;
       var response = await http.post(
@@ -99,6 +99,7 @@ final SimbaDesktopController simbaController = Get.put(SimbaDesktopController(si
     if (response.statusCode == 200) {
       print("Tag data added successfully");
         // final parsedJson = json.decode(response.body);
+        Get.back();
      
     } else {
       print("Error adding tag data: ${response.body}");
@@ -112,7 +113,9 @@ Future<void> getTagData() async{
   String apiUrl = 'http://159.89.80.33:8080/get-profile'; //http://159.89.80.33:8080/get-profile/041726CAD41890
   try {
       
-      
+      //  print(userId2);
+      // String CurrentProfileId = simbaController.currentProfileId;
+      // String TagId = simbaController.currentTagId;
       var response = await http.post(
       Uri.parse(apiUrl),
       headers: {"Content-Type": "application/json"},
@@ -189,30 +192,18 @@ Future<void> _getProfile() async {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                         const SizedBox(height: 20),
-                                        Container(
-                                          child: Column(children: [
-                                            Text(
-                                          "Simba NFC",
-                                          textAlign: TextAlign.center,
-                                          maxLines: 2,
-                                          style: rubikSemiBold.copyWith(
-                                            fontSize: Dimensions.fontSizeOverLarge,
-                                            color: Colors.amber,
-                                          ),
-                                        ), 5.height,
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text('NFC: '),
-                                            Text(' $_availability'),
-                                          ],
-                                        ), 
-                                          ],),
-                                        ),
-
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('NFC: '),
+                              Text(' $_availability'),
+                            ],
+                          ), // Running on: $_platformVersion\n
+                                        // const SizedBox(height: 10),
+                              
                                         
                       
-                                        Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           height: Get.height /3,
@@ -229,81 +220,99 @@ Future<void> _getProfile() async {
                             child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: _tag != null
-                                ? Text( 'ID: ${_tag!.id}\n')
+                                ? Text( 'ID: ${_tag!.id}\n' , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20,), )
                                 : const Text('No tag polled yet.')
                                 
                                 ),
                           ),
                         ),
-                                        ),
+                     ),
                                         
-                                        ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            NFCTag tag = await FlutterNfcKit.poll();
-                            setState(() {
-                              _tag = tag;
-                            });
-                            await FlutterNfcKit.setIosAlertMessage(
-                                "Working on it...");
-                            _mifareResult = null;
-                            if (tag.standard == "ISO 14443-4 (Type B)") {
-                              String result1 =
-                                  await FlutterNfcKit.transceive("00B0950000");
-                              String result2 = await FlutterNfcKit.transceive(
-                                  "00A4040009A00000000386980701");
-                                 
-                              setState(() {
-                                _result = '1: $result1\n2: $result2\n';
-                              });
-                              //  print("${_tag!.id}");
-                            } else if (tag.type == NFCTagType.iso18092) {
-                              String result1 =
-                                  await FlutterNfcKit.transceive("060080080100");
-                      
-                              setState(() {
-                                _result = '1: $result1\n';
-                              });
-                              
-                               print("${_tag!.id}");
-                            } else if (tag.ndefAvailable ?? false) {
-                              var ndefRecords = await FlutterNfcKit.readNDEFRecords();
-                              var ndefString = '';
-                              for (int i = 0; i < ndefRecords.length; i++) {
-                                ndefString += '${i + 1}: ${ndefRecords[i]}\n';
-                              }
-                              setState(() {
-                                _result = ndefString;
-                              });
-                              
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  NFCTag tag = await FlutterNfcKit.poll();
+                                  setState(() {
+                                    _tag = tag;
+                                  });
+                                  await FlutterNfcKit.setIosAlertMessage(
+                                      "Working on it...");
+                                  _mifareResult = null;
+                                  if (tag.standard == "ISO 14443-4 (Type B)") {
+                                    String result1 =
+                                        await FlutterNfcKit.transceive("00B0950000");
+                                    String result2 = await FlutterNfcKit.transceive(
+                                        "00A4040009A00000000386980701");
+                                       
+                                    setState(() {
+                                      _result = '1: $result1\n2: $result2\n';
+                                    });
+                                    //  print("${_tag!.id}");
+                                  } else if (tag.type == NFCTagType.iso18092) {
+                                    String result1 =
+                                        await FlutterNfcKit.transceive("060080080100");
+                            
+                                    setState(() {
+                                      _result = '1: $result1\n';
+                                    });
+                                    
+                                     print("${_tag!.id}");
+                                  } else if (tag.ndefAvailable ?? false) {
+                                    var ndefRecords = await FlutterNfcKit.readNDEFRecords();
+                                    var ndefString = '';
+                                    for (int i = 0; i < ndefRecords.length; i++) {
+                                      ndefString += '${i + 1}: ${ndefRecords[i]}\n';
+                                    }
+                                    setState(() {
+                                      _result = ndefString;
+                                    });
+                                    
+                                     
+                                  } else if (tag.type == NFCTagType.webusb) {
+                                    var r = await FlutterNfcKit.transceive(
+                                        "00A4040006D27600012401");
+                                    if (kDebugMode) {
+                                      print(r);
+                                    }
+                                  }
+                                } catch (e) {
+                                  setState(() {
+                                    _result = 'error: $e';
+                                  });
+                                }
+                                  if (kDebugMode) {
+                                    print("ID: ${_tag!.id}\nStandard: ${_tag!.standard}\nType: ${_tag!.type}\nATQA: ${_tag!.atqa}\nSAK: ${_tag!.sak}\nHistorical Bytes: ${_tag!.historicalBytes}\nProtocol Info: ${_tag!.protocolInfo}\nApplication Data: ${_tag!.applicationData}\nHigher Layer Response: ${_tag!.hiLayerResponse}\nManufacturer: ${_tag!.manufacturer}\nSystem Code: ${_tag!.systemCode}\nDSF ID: ${_tag!.dsfId}\nNDEF Available: ${_tag!.ndefAvailable}\nNDEF Type: ${_tag!.ndefType}\nNDEF Writable: ${_tag!.ndefWritable}\nNDEF Can Make Read Only: ${_tag!.ndefCanMakeReadOnly}\nNDEF Capacity: ${_tag!.ndefCapacity}\nMifare Info:${_tag!.mifareInfo} Transceive Result:\n$_result\n\nBlock Message:\n$_mifareResult");
+                                  }
+                                    
+                                  // String CurrentProfileId = simbaController.currentProfileId;
+                                   simbaController.getTagId(_tag!.id);
                                
-                            } else if (tag.type == NFCTagType.webusb) {
-                              var r = await FlutterNfcKit.transceive(
-                                  "00A4040006D27600012401");
-                              if (kDebugMode) {
-                                print(r);
-                              }
-                            }
-                          } catch (e) {
-                            setState(() {
-                              _result = 'error: $e';
-                            });
-                          }
-                            if (kDebugMode) {
-                              print("ID: ${_tag!.id}\nStandard: ${_tag!.standard}\nType: ${_tag!.type}\nATQA: ${_tag!.atqa}\nSAK: ${_tag!.sak}\nHistorical Bytes: ${_tag!.historicalBytes}\nProtocol Info: ${_tag!.protocolInfo}\nApplication Data: ${_tag!.applicationData}\nHigher Layer Response: ${_tag!.hiLayerResponse}\nManufacturer: ${_tag!.manufacturer}\nSystem Code: ${_tag!.systemCode}\nDSF ID: ${_tag!.dsfId}\nNDEF Available: ${_tag!.ndefAvailable}\nNDEF Type: ${_tag!.ndefType}\nNDEF Writable: ${_tag!.ndefWritable}\nNDEF Can Make Read Only: ${_tag!.ndefCanMakeReadOnly}\nNDEF Capacity: ${_tag!.ndefCapacity}\nMifare Info:${_tag!.mifareInfo} Transceive Result:\n$_result\n\nBlock Message:\n$_mifareResult");
-                            }
-                              
-                            // String CurrentProfileId = simbaController.currentProfileId;
-                            //  simbaController.getTagId(_tag!.id);
-                              simbaController.setTagId(_tag!.id);
-                              simbaController.getNfcProfileData() ;
-                         
-                          // Pretend that we are working
-                          if (!kIsWeb) sleep(const Duration(seconds: 1));
-                          await FlutterNfcKit.finish(iosAlertMessage: "Finished!");
-                        },
-                        child: const Text('Scan Card'),
-                                        ),
+                                // Pretend that we are working
+                                if (!kIsWeb) sleep(const Duration(seconds: 1));
+                                await FlutterNfcKit.finish(iosAlertMessage: "Finished!");
+                              },
+                              child: const Text('Start polling'),
+                                              ),
+                          ),
+                        
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(onPressed: (){
+                                            // print("hello b");
+                                            // simbaController.setTagId("041726CAD41890");
+                                            // simbaController.getNfcProfileData() ;
+                                             addTagData();
+                                             }, 
+                                          child: const Text("Add Card")),
+                        ),
+                        ],
+                      ),
                                         const SizedBox(height: 10),
                           //               Padding(
                           // padding: const EdgeInsets.symmetric(horizontal: 20),
