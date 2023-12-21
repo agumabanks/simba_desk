@@ -69,7 +69,7 @@ class _verifyWithNfcState extends State<verifyWithNfc> with SingleTickerProvider
     }
 
     // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
+    //var ge was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
@@ -162,6 +162,7 @@ Future<void> _getProfile() async {
       print("Error sending request: $e");
     }
   }
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -192,13 +193,13 @@ Future<void> _getProfile() async {
                                         Container(
                                           child: Column(children: [
                                             Text(
-                                          "Simba NFC",
-                                          textAlign: TextAlign.center,
-                                          maxLines: 2,
-                                          style: rubikSemiBold.copyWith(
-                                            fontSize: Dimensions.fontSizeOverLarge,
-                                            color: Colors.amber,
-                                          ),
+                                              "Simba NFC",
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                              style: rubikSemiBold.copyWith(
+                                                fontSize: Dimensions.fontSizeOverLarge,
+                                                color: Colors.amber,
+                                              ),
                                         ), 5.height,
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -228,8 +229,8 @@ Future<void> _getProfile() async {
                           child:   Center(
                             child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: _tag != null
-                                ? Text( 'ID: ${_tag!.id}\n')
+                            child: simbaController.tagId != ''
+                                ? Text( 'IDs: ${simbaController.tagId}\n')
                                 : const Text('No tag polled yet.')
                                 
                                 ),

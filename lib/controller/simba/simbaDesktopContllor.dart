@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:gallery_saver/files.dart';
 import 'package:get/get.dart';
@@ -29,8 +30,7 @@ class SimbaDesktopController extends GetxController implements GetxService {
   final storage = GetStorage();
   final userId =  GetStorage().read('user_id');
 
-  final userNfcId = '';
-  final userNfcUserId = '';
+ 
 
 
 
@@ -38,19 +38,44 @@ class SimbaDesktopController extends GetxController implements GetxService {
   RxString pickedImagePath = ''.obs;
   final ImagePicker _imagePicker = ImagePicker();
 
-  Map<String, dynamic> userNfcProfileData = {};
+  
+
+//  List<Profiles>? _profilesList;
+  var _profilesList = <Profiles>[];
+  List<Profiles>? get  profilesList => _profilesList;
+
+  String _currentTagId = '';
+  String get currentTagId => _currentTagId;
+
+  void getTagId(String value){
+    _currentTagId = value;
+    update();
+  }
 
 
+  
+  String _currentProfileId = '';
+  String get currentProfileId => _currentProfileId;
 
+  void getUserProfile(String value){
+    _currentProfileId = value;
+    update();
+  }
 
-  final tagId = ''.obs;
+ 
+//  NFC
+  late   String tagId = '';
   final profileIdNfc = ''.obs;
 
-  void resetUserNfcDetails(){
-    userNfcProfileData = {};
+  Map<String, dynamic> userNfcProfileData = {};
+   final userNfcId = '';
+  final userNfcUserId = '';
 
-    final tagId = ''.obs;
-    final profileIdNfc = ''.obs;
+
+  void resetUserNfcDetails(){
+     userNfcProfileData = {};
+      tagId = '';
+     final profileIdNfc = '';
     update();
   }
 
@@ -58,15 +83,17 @@ class SimbaDesktopController extends GetxController implements GetxService {
 
    // Function to set the tag ID
   void setTagId(String newTagId) {
-    tagId.value = newTagId;
+    tagId = newTagId;
+    update();
   }
+
+
 
 Future <void> getNfcProfileData() async {
   String apiUrl  = "http://159.89.80.33:8080/get-profile/";
   
   try {
     var response = await http.get(Uri.parse('$apiUrl$tagId')) ;
-
 
    if (response.statusCode == 200) {
         profileIdNfc.value = response.body;
@@ -81,7 +108,6 @@ Future <void> getNfcProfileData() async {
 
 
     // now call the profile data with the new profile id
-
     try {
       
       // profile url
@@ -94,9 +120,6 @@ Future <void> getNfcProfileData() async {
 }
 
 
-
-
- 
 
   bool hasNfcData = false;
 
@@ -134,37 +157,22 @@ Future <void> getNfcProfileData() async {
   }
 
   Future<void> CurrentUserId(profileId) async {
-     
+
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setString('CurrentProfileId', profileId);  
-                                                             
-                                                             
+            await prefs.setString('CurrentProfileId', profileId);                                                  
   }
-
-
-
-//  List<Profiles>? _profilesList;
-  var _profilesList = <Profiles>[];
-
-  List<Profiles>? get 
-  
-  profilesList => _profilesList;
 
 
   void getProfilesList() async {
 
     _profilesList = <Profiles>[];
-    
     const String urlMain = "${AppConstants.mainUrls}getallusers";
     final response =
-        await http.get(Uri.parse(urlMain)); //http://localhost:8080/  http://192.168.11.101/
-
+        await http.get(Uri.parse(urlMain)); 
     if (response.statusCode == 200) {
       var decodedData = jsonDecode(response.body) as List;
       _profilesList = decodedData.map((e) => Profiles.fromJson(e)).toList();
       update();
-
-
 
     } else {
       if (kDebugMode) {
@@ -261,22 +269,6 @@ static const List<String> maritalStatus = [
   }
 
 
-  String _currentProfileId = '';
-  String get currentProfileId => _currentProfileId;
-
-  void getUserProfile(String value){
-    _currentProfileId = value;
-    update();
-  }
-
- String _currentTagId = '';
- String get currentTagId => _currentTagId;
-
-  void getTagId(String value){
-    _currentTagId = value;
-    update();
-  }
-
 // registration
 // Future<ResponseModel> registration(SignUpBody signUpBody) async {
 //     _isLoading = true;
@@ -368,7 +360,6 @@ static const List<String> maritalStatus = [
     }
   }
 
-
 // registerUserS3 registerUserS4
 Future<void> registerUserS3(Profiles profiles) async {
     const String url = "${AppConstants.mainUrls}updatecontactInfo";
@@ -442,7 +433,6 @@ Future<void> registerUserS5(Profiles profiles) async {
     }
   }
 
-
 Future<void> registerUserS6(Profiles profiles) async {
     const String url = "${AppConstants.mainUrls}kycphotos";
     final Map<String, dynamic> parameters = profiles.toJson();
@@ -467,9 +457,6 @@ Future<void> registerUserS6(Profiles profiles) async {
       }
     }
   }
-
-
-
 
 Future<void> registerUserS(Profiles profiles) async {
     const String url = "${AppConstants.mainUrls}kycphotos";

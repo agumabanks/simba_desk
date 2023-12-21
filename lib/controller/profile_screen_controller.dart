@@ -180,7 +180,7 @@ class ProfileController extends GetxController implements GetxService {
           onTapTrueText: 'logout'.tr,
           isFailed: true,
           onTapFalse: (){
-            Get.find<AuthController>().removeBiometricPin().then((value) {
+              Get.find<AuthController>().removeBiometricPin().then((value) {
               Get.find<AuthController>().change(0);
               Get.find<AuthController>().logout();
               Get.find<SplashController>().removeSharedData();

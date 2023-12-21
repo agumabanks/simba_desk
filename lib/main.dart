@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(),
-          title: AppConstants.appName,
+          title: AppConstants.appName,        
           debugShowCheckedModeBanner: false,
           navigatorKey: Get.key,
           theme: themeController.darkTheme ? dark : light,

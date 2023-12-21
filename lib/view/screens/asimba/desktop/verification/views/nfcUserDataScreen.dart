@@ -41,6 +41,7 @@ class nfcUserDataScreen extends StatelessWidget {
                 ),
               ),
             ),
+            
             Padding(
               padding: const EdgeInsets.all(28.0),
               child: Stack(
@@ -50,9 +51,12 @@ class nfcUserDataScreen extends StatelessWidget {
                     bottom:20, right:10, child: ElevatedButton(onPressed: () 
                     { 
                        simbaController.resetUserNfcDetails();
+                       simbaController.tagId = '';
                        Get.back(); 
-                       },
-                    child: Text("back"),)),
+                    },
+                    child: const Text("back"),
+                    )),
+
                   Center(
                       child: Column(
                     children: [
